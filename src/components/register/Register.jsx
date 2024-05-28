@@ -6,8 +6,9 @@ import { auth, googleProvider, db } from '@/config/firebase';
 import { createUserWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 import { setDoc, doc } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
-import fandom from '@/assets/fandomLogo.svg'
-import google from '@/assets/google.svg'
+import fandom from '@/assets/fandomLogo.svg';
+import google from '@/assets/google.svg';
+import { toast } from 'react-toastify';
 
 function Register() {
   const [name, setName] = useState('');
@@ -18,10 +19,22 @@ function Register() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
+  const toastConfig = {
+    position: "top-right",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "dark"
+  };
+
   const handleSignUp = async (e) => {
     e.preventDefault();
     if (password !== confirmPassword) {
       setError('Passwords do not match');
+      toast.error('Passwords do not match', toastConfig);
       return;
     }
     setLoading(true);
@@ -36,10 +49,13 @@ function Register() {
         email: email,
         photoURL: null, // No photo URL for email/password users
       });
+
+      // Navigate to login page
       navigate('/login');
-     
+      toast.success('Registration successful, please log in', toastConfig);
     } catch (error) {
       setError(error.message);
+      toast.error(error.message, toastConfig);
     } finally {
       setLoading(false);
     }
@@ -57,15 +73,18 @@ function Register() {
         email: user.email,
         photoURL: user.photoURL, // Include profile image URL
       });
+
+      toast.success('User registered successfully', toastConfig);
       navigate('/login');
     } catch (error) {
       setError(error.message);
+      toast.error(error.message, toastConfig);
     }
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-800 ">
-      <div className="w-full max-w-md m-auto mt-10 bg-gray-700 p-10 rounded shadow-md ">
+    <div className="flex items-center justify-center min-h-screen bg-gray-800">
+      <div className="w-full max-w-md m-auto mt-10 bg-gray-700 p-10 rounded shadow-md">
         {error && <p className="text-red-500">{error}</p>}
         <div className="flex justify-center items-center">
           <img src={fandom} alt="fandom" className='w-[150px] text-center' />

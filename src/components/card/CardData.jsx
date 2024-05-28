@@ -15,6 +15,7 @@ function CardData({ data }) {
   const [user, setUser] = useState(null);
   const navigate = useNavigate(); // Initialize useNavigate
 
+  console.log(data)
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(user => {
       if (user) {
@@ -100,8 +101,8 @@ function CardData({ data }) {
             <CardContent>
               <CardTitle className="text-lg font-bold mt-2 text-center">{movie.title}</CardTitle>
               <div className="flex justify-between">
-                <p className=''>Ratings :</p>
-                <p className='flex items-center'>{renderStars(movie.vote_average)}</p>
+                <p className='font-bold'>Ratings</p>
+                <p className='flex mt-1 mx-1'>{renderStars(movie.vote_average)}</p>
               </div>
             </CardContent>
           </Card>

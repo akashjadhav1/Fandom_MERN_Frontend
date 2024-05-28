@@ -1,40 +1,48 @@
-
 import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 import "./index.css";
 import Navbar from "./components/Navbar.jsx";
-import { BrowserRouter,Route ,Routes} from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Login from "./components/loginPage/Login.jsx";
 import Register from "./components/register/Register.jsx";
-import MoviesOverview from "./components/register/moviesOverview/MoviesOverview.jsx";
+import MoviesOverview from "./components/moviesOverview/MoviesOverview.jsx";
 import Favourites from "./components/Favourites.jsx";
 import FooterData from "./components/FooterData.jsx";
-
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from "react-toastify";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
+  <BrowserRouter>
+    <div className="flex flex-col min-h-screen">
+      {/* Place the ToastContainer component here, at the root level */}
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
 
-  
+      <Navbar />
 
-    <BrowserRouter>
-      <div>
-        <div>
-          <Navbar />
-        </div>
-       
-        <div className="mt-16">
+      <div className="flex-grow mt-16">
         <Routes>
-        <Route path="/" element={<App />}/>
-        <Route path="/login" element={<Login/>}/>
-        <Route path="/register" element={<Register/>}/>
-        <Route path="/moviesOverview/:id" element={<MoviesOverview/>}/>
-        <Route path='/favourites' element={<Favourites/>}/>
+          <Route path="/" element={<App />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/moviesOverview/:id" element={<MoviesOverview />} />
+          <Route path="/favourites" element={<Favourites />} />
         </Routes>
-        </div>
-
-       <footer>
-       <FooterData/>
-       </footer>
       </div>
-    </BrowserRouter>
 
+      <footer className=" text-center py-4">
+        <FooterData />
+      </footer>
+    </div>
+  </BrowserRouter>
 );
