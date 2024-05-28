@@ -100,7 +100,7 @@ function CardData({ data }) {
             <CardContent>
               <CardTitle className="text-lg font-bold mt-2 text-center">{movie.title}</CardTitle>
               <div className="flex justify-between">
-                <p className='font-bold'>Ratings :</p>
+                <p className=''>Ratings :</p>
                 <p className='flex items-center'>{renderStars(movie.vote_average)}</p>
               </div>
             </CardContent>
