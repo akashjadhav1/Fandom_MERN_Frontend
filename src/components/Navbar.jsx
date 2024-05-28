@@ -41,7 +41,7 @@ export default function Navbar() {
       <div className="w-full max-w-7xl mx-auto px-4">
         <div className="flex justify-between h-14 items-center">
           <div className="">
-            <img src={Logo} alt="logo" className="w-[11%]" />
+            <img src={Logo} alt="logo" className="lg:w-[14%] w-[24%]" />
           </div>
 
           <div className="relative">
@@ -49,22 +49,22 @@ export default function Navbar() {
               <span>Loading...</span> // Show loading message while fetching user state
             ) : user ? (
               <DropdownMenu>
-                <DropdownMenuTrigger asChild>
+                <DropdownMenuTrigger className="" asChild>
                   <button
                     onClick={() => setMenuOpen(!menuOpen)}
-                    className="flex items-center gap-2 text-sm focus:outline-none"
+                    className="flex items-center gap-2 text-sm focus:outline-none "
                   >
                     <img
                       src={user.photoURL}
                       alt="profile"
-                      className="w-9 h-9 rounded-full cursor-pointer"
+                      className="w-[150px] lg:w-[90px] rounded-full border-2 border-red-700 cursor-pointer"
                     />
-                    <span>{user.email}</span>
+                    
                   </button>
                 </DropdownMenuTrigger>
                 {/* Dropdown menu */}
                 {menuOpen && (
-                  <DropdownMenuContent className="absolute top-full left-[-90px] w-[250px] h-auto bg-gray-800 border-none shadow-lg rounded">
+                  <DropdownMenuContent className="absolute top-full right-[-10px] w-[250px] h-auto bg-gray-800 border-none shadow-lg rounded">
                     <p></p>
                     <DropdownMenuItem className="hover:bg-gray-700 " >
                       <Link to="/favourites">

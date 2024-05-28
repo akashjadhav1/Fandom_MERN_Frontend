@@ -15,8 +15,6 @@ function CardData({ data }) {
   const [user, setUser] = useState(null);
   const navigate = useNavigate(); // Initialize useNavigate
 
-console.log(data);
-
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(user => {
       if (user) {
@@ -76,37 +74,39 @@ console.log(data);
   };
 
   return (
-    <div className='grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 max-w-full mx-5 mt-8'>
-      {data.map((movie) => (
-        <Card key={movie.id} className="max-w-[400px] cursor-pointer hover:shadow-xl transition-shadow duration-300 rounded">
-          <CardHeader className="relative flex flex-col items-center justify-center h-[360px]">
-            <div className="object-contain h-full">
-              <Link to={`/moviesOverview/${movie.id}`}>
-                <img 
-                  src={`${IMAGE_BASE_URL}${movie.poster_path}`} 
-                  alt={movie.title} 
-                  className="object-contain w-full h-full rounded"
-                />
-              </Link>
-            </div>
-            {/* Render heart icon based on favorite status */}
-            <img
-              src={favorites.includes(movie.id) ? heartFilled : heartOutline}
-              alt="heart"
-              className="absolute top-2 right-2 w-7 cursor-pointer"
-              onClick={() => toggleFavorite(movie.id)}
-            />
-          </CardHeader>
-          <hr />
-          <CardContent>
-            <CardTitle className="text-lg font-bold mt-2 text-center">{movie.title}</CardTitle>
-            <div className="flex justify-between">
-              <p className='font-bold'>Ratings :</p>
-              <p className='flex items-center'>{renderStars(movie.vote_average)}</p>
-            </div>
-          </CardContent>
-        </Card>
-      ))}
+    <div className='container mx-auto mt-8'>
+      <div className='grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4'>
+        {data.map((movie) => (
+          <Card key={movie.id} className="w-full max-w-[300px] cursor-pointer hover:shadow-xl transition-shadow duration-300 rounded">
+            <CardHeader className="relative flex flex-col items-center justify-center h-[360px]">
+              <div className="object-contain h-full">
+                <Link to={`/moviesOverview/${movie.id}`}>
+                  <img 
+                    src={`${IMAGE_BASE_URL}${movie.poster_path}`} 
+                    alt={movie.title} 
+                    className="object-contain w-full h-full rounded"
+                  />
+                </Link>
+              </div>
+              {/* Render heart icon based on favorite status */}
+              <img
+                src={favorites.includes(movie.id) ? heartFilled : heartOutline}
+                alt="heart"
+                className="absolute top-2 right-2 w-7 cursor-pointer"
+                onClick={() => toggleFavorite(movie.id)}
+              />
+            </CardHeader>
+            <hr />
+            <CardContent>
+              <CardTitle className="text-lg font-bold mt-2 text-center">{movie.title}</CardTitle>
+              <div className="flex justify-between">
+                <p className='font-bold'>Ratings :</p>
+                <p className='flex items-center'>{renderStars(movie.vote_average)}</p>
+              </div>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
     </div>
   );
 }

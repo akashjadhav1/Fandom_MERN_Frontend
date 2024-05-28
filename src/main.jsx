@@ -8,6 +8,7 @@ import Login from "./components/loginPage/Login.jsx";
 import Register from "./components/register/Register.jsx";
 import MoviesOverview from "./components/register/moviesOverview/MoviesOverview.jsx";
 import Favourites from "./components/Favourites.jsx";
+import FooterData from "./components/FooterData.jsx";
 
 
 ReactDOM.createRoot(document.getElementById("root")).render(
@@ -29,6 +30,10 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         <Route path='/favourites' element={<Favourites/>}/>
         </Routes>
         </div>
+
+       <footer>
+       <FooterData/>
+       </footer>
       </div>
     </BrowserRouter>
 
