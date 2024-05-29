@@ -83,8 +83,8 @@ function Register() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-800">
-      <div className="w-full max-w-md m-auto mt-10 bg-gray-700 p-10 rounded shadow-md">
+    <div className="backgroundImage flex items-center justify-center min-h-screen">
+      <div className="w-full max-w-md m-auto mt-10 bg-gray-700 p-10 rounded shadow-black shadow-lg">
         {error && <p className="text-red-500">{error}</p>}
         <div className="flex justify-center items-center">
           <img src={fandom} alt="fandom" className='w-[150px] text-center' />

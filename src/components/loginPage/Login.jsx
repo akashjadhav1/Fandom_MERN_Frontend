@@ -53,21 +53,22 @@ const LoginForm = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-800">
-      <div className="w-full max-w-md m-auto bg-gray-700 p-10 rounded shadow-md">
-        {error && <p className="text-red-500">{error}</p>}
+    <div className="backgroundImage flex items-center justify-center lg:min-h-screen p-4 lg:p-0">
+      <div className="w-full max-w-md bg-gray-700 p-6 rounded shadow-black shadow-lg">
+        {error && <p className="text-red-500 mb-4">{error}</p>}
         <div className="flex justify-center items-center">
-          <img src={fandom} alt="fandom" className='w-[150px] text-center' />
+          <img src={fandom} alt="fandom" className='w-[100px] lg:w-[150px] text-center rounded' />
         </div>
         <div className="mt-4 mb-4">
-          <Button variant="outline" className="w-full rounded" onClick={signInWithGoogle}>
-            <img src={google} alt="google" /><p className='mx-2 rounded'>Login with Google</p>
+          <Button variant="outline" className="w-full rounded flex items-center justify-center" onClick={signInWithGoogle}>
+            <img src={google} alt="google" className="w-6 h-6 mr-2" />
+            <p className='mx-2'>Login with Google</p>
           </Button>
         </div>
-        <div className="flex justify-center items-center">
-          <div><p className="border border-b-2 w-[100px] mx-1"></p></div>
+        <div className="flex items-center mb-4">
+          <div className="border-b border-gray-600 flex-grow mx-2"></div>
           <p>OR CONTINUE WITH</p>
-          <div><p className="border border-b-2 w-[100px] mx-1"></p></div>
+          <div className="border-b border-gray-600 flex-grow mx-2"></div>
         </div>
         <form onSubmit={handleSubmit(handleSignIn)}>
           <div className="mt-5">
@@ -98,7 +99,7 @@ const LoginForm = () => {
               {loading ? 'Logging in...' : 'Login'}
             </Button>
             <div className="flex justify-center mt-2">
-              <p>New To Fandom </p>
+              <p>New To Fandom?</p>
               <Link to="/register" className="text-blue-500 underline mx-2">Register</Link>
             </div>
           </div>

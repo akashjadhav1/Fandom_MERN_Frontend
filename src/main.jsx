@@ -13,7 +13,7 @@ import { ToastContainer } from "react-toastify";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <BrowserRouter>
-    <div className="flex flex-col min-h-screen">
+    <div className="backgroundImage flex flex-col min-h-screen">
       {/* Place the ToastContainer component here, at the root level */}
       <ToastContainer
         position="top-right"

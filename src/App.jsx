@@ -4,7 +4,7 @@ import HomePage from "./components/HomePage";
 
 function App() {
   return (
-    <div>
+    <div className="backgroundImage">
     
     
         <HomePage />

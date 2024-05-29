@@ -18,13 +18,13 @@ function HomePage() {
 
       <div>
 
-<form onSubmit={handleSearch} className='flex w-[50%] m-auto mt-[5%]'>
-  <Input name="query" className="rounded-full" placeholder="Search Movies & TV Shows" />
-  <Button variant="outline" type="submit" className="mx-4 rounded">
+<form onSubmit={handleSearch} className='flex lg:w-[50%] lg:m-auto lg:pt-[3%] mx-10'>
+  <Input name="query" className="lg:rounded-full rounded h-8 lg:h-10" placeholder="Search Movies & TV Shows" />
+  <Button variant="outline" type="submit" className="mx-4 rounded h-8 lg:h-10">
     Search
   </Button>
 </form>
-<div className='w-[80%] m-auto mt-5'>
+<div className='w-[80%] m-auto'>
   {loading && <p>Loading...</p>}
   {error && <p>Error: {error.message}</p>}
   {!loading && !error && (

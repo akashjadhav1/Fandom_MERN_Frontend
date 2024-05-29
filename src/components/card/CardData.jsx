@@ -75,11 +75,11 @@ function CardData({ data }) {
   };
 
   return (
-    <div className='container mx-auto mt-8'>
+    <div className='lg:container mx-auto mt-8'>
       <div className='grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4'>
         {data.map((movie) => (
-          <Card key={movie.id} className="w-full max-w-[300px] cursor-pointer hover:shadow-xl transition-shadow duration-300 rounded">
-            <CardHeader className="relative flex flex-col items-center justify-center h-[360px]">
+          <Card key={movie.id} className=" cursor-pointer hover:shadow-xl transition-shadow  duration-300 border-none bg-black shadow-white shadow-md rounded">
+            <CardHeader className="relative flex flex-col items-center justify-center lg:h-[300px] ">
               <div className="object-contain h-full">
                 <Link to={`/moviesOverview/${movie.id}`}>
                   <img 
@@ -93,16 +93,16 @@ function CardData({ data }) {
               <img
                 src={favorites.includes(movie.id) ? heartFilled : heartOutline}
                 alt="heart"
-                className="absolute top-2 right-2 w-7 cursor-pointer"
+                className="absolute top-2 right-2 lg:w-7 md:w-6 w-5 cursor-pointer"
                 onClick={() => toggleFavorite(movie.id)}
               />
             </CardHeader>
             <hr />
             <CardContent>
-              <CardTitle className="text-lg font-bold mt-2 text-center">{movie.title}</CardTitle>
-              <div className="flex justify-between">
-                <p className='font-bold'>Ratings</p>
-                <p className='flex mt-1 mx-1'>{renderStars(movie.vote_average)}</p>
+              <CardTitle className="lg:text-lg lg:font-bold mt-2 lg:text-center text-sm">{movie.title}</CardTitle>
+              <div className="flex justify-between pt-2 ">
+                <p className='lg:font-bold text-[10px] lg:text-lg'>Rating:</p>
+                <p className='flex lg:mt-1.5 lg:mx-1 lg:w-auto w-14'>{renderStars(movie.vote_average)}</p>
               </div>
             </CardContent>
           </Card>

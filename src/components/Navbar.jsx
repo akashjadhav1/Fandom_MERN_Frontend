@@ -55,7 +55,7 @@ export default function Navbar() {
         <div className="flex justify-between h-14 items-center">
           <div>
           <Link to="/">
-          <img src={Logo} alt="logo" className="lg:w-[14%] w-[24%]" />
+          <img src={Logo} alt="logo" className="lg:w-[14%] md:w-[20%] w-[40%]" />
           </Link>
             
           </div>
@@ -74,7 +74,7 @@ export default function Navbar() {
                       <img
                         src={user.photoURL}
                         alt="profile"
-                        className="w-[150px] lg:w-[90px] rounded-full border-2 border-red-700 cursor-pointer"
+                        className="w-[15rem] lg:w-[90px] md:w-[140px] rounded-full border-2 border-red-700 cursor-pointer"
                       />
                     ) : (
                       <span className="flex justify-center items-center border-4 border-yellow-700 text-pink-600 w-10 h-10 font-bold text-xl rounded-full">{user.email.substring(0,1).toUpperCase()}</span>
@@ -111,7 +111,7 @@ export default function Navbar() {
             ) : (
               <div className="flex items-center gap-4">
                 <Link to="/login">
-                  <Button size="sm" className="rounded" variant="outline">
+                  <Button size="sm"  className="rounded" variant="outline">
                     Sign in
                   </Button>
                 </Link>
