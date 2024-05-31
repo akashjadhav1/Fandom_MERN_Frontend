@@ -14,6 +14,7 @@ function Favorites() {
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(true); // Loading state to handle UI state
 
+ 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -44,7 +45,9 @@ function Favorites() {
 
   const fetchFavoriteMovies = async (favorites) => {
     const requests = favorites.map(({ id, media_type }) =>
-      fetch(`https://api.themoviedb.org/3/${media_type}/${id}?api_key=${import.meta.env.VITE_TMDB_API_KEY}`).then(response => response.json())
+      fetch(`https://api.themoviedb.org/3/${media_type}/${id}?api_key=${import.meta.env.VITE_TMDB_API_KEY}`)
+        .then(response => response.json())
+        .then(data => ({ ...data, media_type })) // Add media_type to the movie data
     );
     const results = await Promise.all(requests);
     setMovies(results);
@@ -74,7 +77,7 @@ function Favorites() {
         {movies.length > 0 ? (
           movies.map((movie) => (
             <Card key={movie.id} className="cursor-pointer hover:shadow-xl transition-shadow  duration-300 border-none bg-black shadow-white shadow-md rounded">
-              <CardHeader className="relative flex flex-col items-center justify-center lg:h-[300px] ">
+              <CardHeader className="relative flex flex-col items-center justify-center lg:h-[200px] ">
                 <div className="object-contain h-full">
                   <Link to={`/mediaOverview/${movie.media_type}/${movie.id}`}>
                     <img 
@@ -87,14 +90,14 @@ function Favorites() {
               </CardHeader>
               <hr />
               <CardContent>
-                <CardTitle className="lg:text-lg lg:font-bold mt-2 lg:text-center text-sm">{movie.title}</CardTitle>
+                <CardTitle className="lg:text-md lg:font-bold mt-2 lg:text-center text-sm truncate">{movie.title || movie.name}</CardTitle>
                 <div className="flex justify-between pt-2 ">
-                  <p className='lg:font-bold text-[10px] lg:text-lg'>Rating:</p>
-                  <p className='flex lg:mt-1.5 lg:mx-1 lg:w-auto w-14'>{renderStars(movie.vote_average)}</p>
+                  <p className='lg:font-bold text-[10px] lg:mt-1.5 lg:text-md'>Rating:</p>
+                  <p className='flex lg:mt-1.5 lg:mx-1 lg:w-16 w-10'>{renderStars(movie.vote_average)}</p>
                 </div>
                 <div className='lg:flex lg:justify-center lg:items-center mt-3'>
                   <Link to={`/mediaOverview/${movie.media_type}/${movie.id}`}>
-                    <Button className="shadow-green-500 shadow-sm h-8 w-full lg:mt-0 mt-3" >Watch Now</Button>
+                    <Button size="sm" className="shadow-green-500 shadow-sm h-8 w-full lg:mt-0 mt-3" >Watch Now</Button>
                   </Link>
                 </div>
               </CardContent>

@@ -66,7 +66,7 @@ export default function Navbar() {
               <img
                 src={Logo}
                 alt="logo"
-                className="lg:w-[14%] md:w-[20%] w-[23%]"
+                className="lg:w-[10%] md:w-[20%] w-[23%]"
               />
             </Link>
           </div>
@@ -85,7 +85,7 @@ export default function Navbar() {
                       <img
                         src={user.photoURL}
                         alt="profile"
-                        className="w-[11rem] lg:w-[90px] md:w-[140px] rounded-full border-2 border-red-700 cursor-pointer"
+                        className="w-[11rem] lg:w-[80px] md:w-[140px] rounded-full border-2 border-red-700 cursor-pointer"
                       />
                     ) : (
                       <div className="flex justify-center items-center border-4 border-yellow-700 bg-white  w-11 h-11 rounded-full">

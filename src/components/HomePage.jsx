@@ -42,18 +42,21 @@ function HomePage() {
 
       <div className="w-[70%] m-auto flex mt-8">
         <Button 
+          size="sm"
           className={`mx-4 shadow-green-500 shadow-md rounded ${filter === 'all' ? 'shadow-orange-500 text-white' : ''}`}
           onClick={() => handleFilterChange("all")}
         >
           All
         </Button>
         <Button 
+        size="sm"
           className={`mx-4 shadow-green-500 shadow-md rounded ${filter === 'movies' ? 'shadow-orange-500 text-white' : ''}`}
           onClick={() => handleFilterChange("movies")}
         >
           Movies
         </Button>
         <Button 
+        size="sm"
           className={`mx-4 shadow-green-500 shadow-md rounded ${filter === 'tv' ? 'shadow-orange-500 text-white' : ''}`}
           onClick={() => handleFilterChange("tv")}
         >

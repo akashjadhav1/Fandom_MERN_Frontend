@@ -40,7 +40,7 @@ function MediaOverview() {
   return (
     <>
       <div
-        className={`flex flex-col md:flex-row w-full max-w-7xl m-auto p-5 shadow-gray-300 shadow-lg rounded`}
+        className={`flex flex-col md:flex-row w-full max-w-5xl m-auto p-5 shadow-gray-300 shadow-lg rounded`}
       >
         {media && (
           <>
@@ -58,14 +58,14 @@ function MediaOverview() {
                 {media.title || media.name}
               </h1>
               <hr />
-              <p className="lg:text-xl mb-4 lg:p-10 pt-5 text-justify">
+              <p className="lg:text-md mb-4 lg:p-10 pt-5 text-justify">
                 {media.overview}
               </p>
 
               <div className="lg:flex lg:items-center lg:justify-center lg:mt-5">
               {media.genres.map((genre) => (
                 <>
-                  <Button variant="outline" className="mx-2 mt-5 border-none shadow-green-300 rounded shadow-md">
+                  <Button variant="outline" size="sm" className="mx-2 mt-5 border-none shadow-green-300 rounded shadow-md">
                    
                       {genre.name}
                     
@@ -76,7 +76,7 @@ function MediaOverview() {
 
               <div className="flex flex-col lg:p-10 md:flex-row lg:justify-between lg:items-center mt-5">
                 <div>
-                <p className="text-md font-semibold mb-2 md:mb-0 text-start">
+                <p className="text-sm font-semibold mb-2 md:mb-0 text-start">
                   Release Date:{" "}
                   <span className="text-gray-400 ml-2">
                     {mediatype === "movie"
@@ -84,7 +84,7 @@ function MediaOverview() {
                       : media.first_air_date}
                   </span>
                 </p>
-                <p className="flex items-center text-md font-semibold">
+                <p className="flex items-center text-sm font-semibold">
                   Rating:{" "}
                   <span className="flex text-gray-400 ml-2">
                     {renderStars(media.vote_average)}
@@ -92,10 +92,10 @@ function MediaOverview() {
                 </p>
                 </div>
                 <div className="lg:mx-3 md:mx-3">
-                <p className=" text-md font-semibold mb-2 md:mb-0 text-start">
+                <p className=" text-sm font-semibold mb-2 md:mb-0 text-start">
                   Status: <span className="text-gray-400">{media.status}</span>
                 </p>
-                <p className=" text-md font-semibold mb-2 md:mb-0 text-start">
+                <p className=" text-sm font-semibold mb-2 md:mb-0 text-start">
                   Popularity: <span className="text-gray-400">{media.popularity}</span>
                 </p>
                 </div>
