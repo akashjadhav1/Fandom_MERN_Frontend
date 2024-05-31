@@ -96,7 +96,7 @@ function CardData({ data }) {
           <Card key={item.id} className="cursor-pointer hover:shadow-xl transition-shadow duration-300 border-none bg-black shadow-white shadow-md rounded">
             <CardHeader className="relative flex flex-col items-center justify-center lg:h-[300px]">
               <div className="object-contain h-full">
-                <Link to={`/mediaOverview/${item.id}`}>
+                <Link to={`/mediaOverview/${item.media_type}/${item.id}`}>
                   <img 
                     src={`${IMAGE_BASE_URL}${item.poster_path}`} 
                     alt={item.title || item.name} 
@@ -127,7 +127,7 @@ function CardData({ data }) {
               </div>
               <div className='lg:flex lg:justify-between lg:items-center mt-3'>
                 <p className='lg:p-1 shadow-orange-300 shadow-sm text-center text-sm p-1'>{item.media_type ? item.media_type.toUpperCase() : 'N/A'}</p>
-                <Link to={`/mediaOverview/${item.id}`}>
+                <Link to={`/mediaOverview/${item.media_type}/${item.id}`}>
                   <Button className="shadow-green-500 shadow-sm h-8 w-full lg:mt-0 mt-3">Watch Now</Button>
                 </Link>
               </div>

@@ -74,7 +74,7 @@ function Favorites() {
             <Card key={movie.id} className="cursor-pointer hover:shadow-xl transition-shadow  duration-300 border-none bg-black shadow-white shadow-md rounded">
               <CardHeader className="relative flex flex-col items-center justify-center lg:h-[300px] ">
                 <div className="object-contain h-full">
-                <Link to={`/mediaOverview/${movie.id}`}>
+                <Link to={`/mediaOverview/${movie.media_type}/${movie.id}`}>
                   <img 
                     src={`${IMAGE_BASE_URL}${movie.poster_path}`} 
                     alt={movie.title} 
@@ -92,7 +92,7 @@ function Favorites() {
               </div>
               <div className='lg:flex lg:justify-center lg:items-center mt-3'>
                
-                <Link to={`/mediaOverview/${movie.id}`}>
+                <Link to={`/mediaOverview/${movie.media_type}/${movie.id}`}>
                 <Button className="shadow-green-500 shadow-sm h-8 w-full lg:mt-0 mt-3" >Watch Now</Button>
                 </Link>
                 

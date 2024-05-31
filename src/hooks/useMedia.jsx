@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 const apiBaseURL = "https://api.themoviedb.org/3";
 const apiKey = import.meta.env.VITE_TMDB_API_KEY;
 
-function useMedia(id) {
+function useMedia(id, mediaType) {
   const [media, setMedia] = useState(null);
   const [cast, setCast] = useState([]);
   const [videos, setVideos] = useState([]);
@@ -17,8 +17,8 @@ function useMedia(id) {
       try {
         setLoading(true);
 
-        // Fetch movie data
-        const response = await fetch(`${apiBaseURL}/movie/${id}?api_key=${apiKey}`);
+        // Fetch media data (movie or TV show)
+        const response = await fetch(`${apiBaseURL}/${mediaType}/${id}?api_key=${apiKey}`);
         if (!response.ok) {
           throw new Error(`Error: ${response.status} ${response.statusText}`);
         }
@@ -42,8 +42,8 @@ function useMedia(id) {
 
     async function fetchCast() {
       try {
-        // Fetch cast data for movies
-        const response = await fetch(`${apiBaseURL}/movie/${id}/credits?api_key=${apiKey}`);
+        // Fetch cast data (movie or TV show)
+        const response = await fetch(`${apiBaseURL}/${mediaType}/${id}/credits?api_key=${apiKey}`);
         if (!response.ok) {
           throw new Error(`Error: ${response.status} ${response.statusText}`);
         }
@@ -62,8 +62,8 @@ function useMedia(id) {
 
     async function fetchVideos() {
       try {
-        // Fetch videos data for movies
-        const response = await fetch(`${apiBaseURL}/movie/${id}/videos?api_key=${apiKey}`);
+        // Fetch videos data (movie or TV show)
+        const response = await fetch(`${apiBaseURL}/${mediaType}/${id}/videos?api_key=${apiKey}`);
         if (!response.ok) {
           throw new Error(`Error: ${response.status} ${response.statusText}`);
         }
@@ -80,7 +80,7 @@ function useMedia(id) {
       }
     }
 
-    if (id) {
+    if (id && mediaType) {
       fetchMedia();
       fetchCast();
       fetchVideos();
@@ -89,7 +89,7 @@ function useMedia(id) {
     return () => {
       isMounted = false; // Cleanup function to set the flag to false on unmount
     };
-  }, [id]);
+  }, [id, mediaType]);
 
   return { media, cast, videos, loading, error };
 }

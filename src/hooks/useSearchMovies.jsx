@@ -13,7 +13,7 @@ function useSearchMovies(searchQuery = "", filter = "all") {
       setLoading(true);
       let endpoint;
       if (query) {
-        endpoint = `${apiBaseURL}/search/movie?api_key=${apiKey}&query=${query}`;
+        endpoint = `${apiBaseURL}/search/multi?api_key=${apiKey}&query=${query}`;
       } else {
         switch (filter) {
           case "movies":
