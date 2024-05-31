@@ -37,6 +37,7 @@ const LoginForm = () => {
       navigate('/');
     } catch (error) {
       setError(error.message);
+      toast.error(error.message,toastConfig)
     } finally {
       setLoading(false);
     }
@@ -49,13 +50,14 @@ const LoginForm = () => {
       navigate('/');
     } catch (error) {
       setError(error.message);
+      toast.error(error.message,toastConfig);
     }
   };
 
   return (
     <div className="backgroundImage flex items-center justify-center lg:min-h-screen p-4 lg:p-0">
       <div className="w-full max-w-md bg-gray-700 p-6 rounded shadow-black shadow-lg">
-        {error && <p className="text-red-500 mb-4">{error}</p>}
+        
         <div className="flex justify-center items-center">
           <img src={fandom} alt="fandom" className='w-[100px] lg:w-[150px] text-center rounded' />
         </div>
