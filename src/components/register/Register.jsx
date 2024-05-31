@@ -97,10 +97,10 @@ function Register() {
             <img src={google} alt="google" className='' /> <p className='mx-2'>Sign Up with Google</p>
           </Button>
         </div>
-        <div className="flex justify-center items-center mt-4">
-          <div><p className="border border-b-2 lg:w-[100px] w-[75px] mx-1"></p></div>
+        <div className="flex items-center mb-4 mt-3">
+          <div className="border-b border-gray-600 flex-grow mx-2"></div>
           <p className='text-sm'>OR CONTINUE WITH</p>
-          <div><p className="border border-b-2 lg:w-[100px] w-[75px]  mx-1"></p></div>
+          <div className="border-b border-gray-600 flex-grow mx-2"></div>
         </div>
         <form onSubmit={handleSignUp}>
           <div className="mt-5">
