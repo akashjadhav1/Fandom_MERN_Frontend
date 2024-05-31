@@ -4,8 +4,14 @@ import Logo from "@/assets/fandomLogo.svg";
 import { Link, useNavigate } from "react-router-dom";
 import { auth } from "@/config/firebase";
 import { onAuthStateChanged, signOut } from "firebase/auth";
-import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "./ui/dropdown-menu";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+} from "./ui/dropdown-menu";
 import { toast } from "react-toastify";
+import defaultProfile from '@/assets/profileLogo.png';
 
 export default function Navbar() {
   const [user, setUser] = useState(null);
@@ -21,7 +27,7 @@ export default function Navbar() {
     pauseOnHover: true,
     draggable: true,
     progress: undefined,
-    theme: "dark"
+    theme: "dark",
   };
 
   useEffect(() => {
@@ -40,15 +46,14 @@ export default function Navbar() {
     return () => unsubscribe();
   }, []);
 
-  
   const handleSignOut = async () => {
     try {
       await signOut(auth);
-      navigate('/')
-      toast.success('User logged out successfully', toastConfig);
+      navigate("/");
+      toast.success("User logged out successfully", toastConfig);
     } catch (error) {
       console.error("Error signing out: ", error);
-      toast.error('Error signing out', toastConfig);
+      toast.error("Error signing out", toastConfig);
     }
   };
 
@@ -58,7 +63,11 @@ export default function Navbar() {
         <div className="flex justify-between h-14 items-center">
           <div>
             <Link to="/">
-              <img src={Logo} alt="logo" className="lg:w-[14%] md:w-[20%] w-[23%]" />
+              <img
+                src={Logo}
+                alt="logo"
+                className="lg:w-[14%] md:w-[20%] w-[23%]"
+              />
             </Link>
           </div>
 
@@ -73,14 +82,15 @@ export default function Navbar() {
                     className="flex items-center gap-2 text-sm focus:outline-none"
                   >
                     {user.photoURL ? (
-                      
                       <img
                         src={user.photoURL}
                         alt="profile"
-                        className="w-[10rem] lg:w-[90px] md:w-[140px] rounded-full border-2 border-red-700 cursor-pointer"
+                        className="w-[11rem] lg:w-[90px] md:w-[140px] rounded-full border-2 border-red-700 cursor-pointer"
                       />
                     ) : (
-                      <span className="flex justify-center items-center border-4 border-yellow-700 text-pink-600 w-10 h-10 font-bold text-xl rounded-full"><img src="../assets/profileLogo.png" alt="profile" /></span>
+                      <div className="flex justify-center items-center border-4 border-yellow-700 bg-white  w-11 h-11 rounded-full">
+                        <img src={defaultProfile} className="" alt="profile" />
+                      </div>
                     )}
                   </button>
                 </DropdownMenuTrigger>
@@ -89,7 +99,11 @@ export default function Navbar() {
                     <DropdownMenuItem>
                       {user.photoURL && user.email ? (
                         <div className="flex items-center mt-5">
-                          <img src={user.photoURL} className="w-9 h-9 rounded-full" alt="profile" />
+                          <img
+                            src={user.photoURL}
+                            className="w-9 h-9 rounded-full"
+                            alt="profile"
+                          />
                           <p className="mx-2">{user.email}</p>
                         </div>
                       ) : (
