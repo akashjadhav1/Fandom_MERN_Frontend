@@ -62,10 +62,10 @@ function MediaOverview() {
                 {media.overview}
               </p>
 
-              <div className="flex items-center justify-center mt-5">
+              <div className="lg:flex lg:items-center lg:justify-center lg:mt-5">
               {media.genres.map((genre) => (
                 <>
-                  <Button variant="outline" className="mx-2 border-none shadow-green-300 rounded shadow-md">
+                  <Button variant="outline" className="mx-2 mt-5 border-none shadow-green-300 rounded shadow-md">
                    
                       {genre.name}
                     
