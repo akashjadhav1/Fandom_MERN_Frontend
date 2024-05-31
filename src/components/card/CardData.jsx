@@ -130,7 +130,7 @@ function CardData({ data }) {
             </CardHeader>
             <hr />
             <CardContent>
-              <CardTitle className="lg:text-md lg:font-bold mt-2 lg:text-center text-sm truncate">{item.title || item.name}</CardTitle>
+              <CardTitle className="lg:text-md lg:font-bold mt-2 lg:text-center text-sm">{item.title || item.name}</CardTitle>
               <div className="flex justify-between pt-2">
                 <p className='lg:font-bold text-[10px] lg:text-md mt-0.5'>Rating:</p>
                 <p className='flex lg:w-auto w-14'>{renderStars(item.vote_average)}</p>
