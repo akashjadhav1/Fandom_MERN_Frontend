@@ -75,6 +75,7 @@ function MediaOverview() {
             </div>
 
               <div className="flex flex-col lg:p-10 md:flex-row lg:justify-between lg:items-center mt-5">
+                <div>
                 <p className="text-md font-semibold mb-2 md:mb-0 text-start">
                   Release Date:{" "}
                   <span className="text-gray-400 ml-2">
@@ -89,12 +90,15 @@ function MediaOverview() {
                     {renderStars(media.vote_average)}
                   </span>
                 </p>
+                </div>
+                <div className="lg:mx-3 md:mx-3">
                 <p className=" text-md font-semibold mb-2 md:mb-0 text-start">
                   Status: <span className="text-gray-400">{media.status}</span>
                 </p>
                 <p className=" text-md font-semibold mb-2 md:mb-0 text-start">
                   Popularity: <span className="text-gray-400">{media.popularity}</span>
                 </p>
+                </div>
               </div>
               {trailerUrl ? (
                 <div className="mt-5">

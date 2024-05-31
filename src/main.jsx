@@ -42,7 +42,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         </Routes>
       </div>
 
-      <footer className=" text-center py-4">
+      <footer className=" text-center sticky bottom-0">
         <FooterData />
       </footer>
     </div>

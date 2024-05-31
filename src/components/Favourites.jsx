@@ -43,23 +43,25 @@ function Favorites() {
   };
 
   const fetchFavoriteMovies = async (favorites) => {
-    const requests = favorites.map(id =>
-      fetch(`https://api.themoviedb.org/3/movie/${id}?api_key=${import.meta.env.VITE_TMDB_API_KEY}`).then(response => response.json())
+    const requests = favorites.map(({ id, media_type }) =>
+      fetch(`https://api.themoviedb.org/3/${media_type}/${id}?api_key=${import.meta.env.VITE_TMDB_API_KEY}`).then(response => response.json())
     );
     const results = await Promise.all(requests);
     setMovies(results);
   };
 
   if (loading) {
-    return  <div className="lg:container mx-auto mt-8">
-    <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-      {Array(10)
-        .fill()
-        .map((_, index) => (
-          <CardSkeleton key={index} />
-        ))}
-    </div>
-  </div>; // Show a loading message while fetching data
+    return (
+      <div className="lg:container mx-auto mt-8">
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+          {Array(10)
+            .fill()
+            .map((_, index) => (
+              <CardSkeleton key={index} />
+            ))}
+        </div>
+      </div>
+    ); // Show a loading message while fetching data
   }
 
   return (
@@ -74,30 +76,28 @@ function Favorites() {
             <Card key={movie.id} className="cursor-pointer hover:shadow-xl transition-shadow  duration-300 border-none bg-black shadow-white shadow-md rounded">
               <CardHeader className="relative flex flex-col items-center justify-center lg:h-[300px] ">
                 <div className="object-contain h-full">
-                <Link to={`/mediaOverview/${movie.media_type}/${movie.id}`}>
-                  <img 
-                    src={`${IMAGE_BASE_URL}${movie.poster_path}`} 
-                    alt={movie.title} 
-                    className="object-contain w-full h-full rounded"
-                  />
-                </Link>
+                  <Link to={`/mediaOverview/${movie.media_type}/${movie.id}`}>
+                    <img 
+                      src={`${IMAGE_BASE_URL}${movie.poster_path}`} 
+                      alt={movie.title} 
+                      className="object-contain w-full h-full rounded"
+                    />
+                  </Link>
                 </div>
               </CardHeader>
               <hr />
               <CardContent>
-              <CardTitle className="lg:text-lg lg:font-bold mt-2 lg:text-center text-sm">{movie.title}</CardTitle>
-              <div className="flex justify-between pt-2 ">
-                <p className='lg:font-bold text-[10px] lg:text-lg'>Rating:</p>
-                <p className='flex lg:mt-1.5 lg:mx-1 lg:w-auto w-14'>{renderStars(movie.vote_average)}</p>
-              </div>
-              <div className='lg:flex lg:justify-center lg:items-center mt-3'>
-               
-                <Link to={`/mediaOverview/${movie.media_type}/${movie.id}`}>
-                <Button className="shadow-green-500 shadow-sm h-8 w-full lg:mt-0 mt-3" >Watch Now</Button>
-                </Link>
-                
-              </div>
-            </CardContent>
+                <CardTitle className="lg:text-lg lg:font-bold mt-2 lg:text-center text-sm">{movie.title}</CardTitle>
+                <div className="flex justify-between pt-2 ">
+                  <p className='lg:font-bold text-[10px] lg:text-lg'>Rating:</p>
+                  <p className='flex lg:mt-1.5 lg:mx-1 lg:w-auto w-14'>{renderStars(movie.vote_average)}</p>
+                </div>
+                <div className='lg:flex lg:justify-center lg:items-center mt-3'>
+                  <Link to={`/mediaOverview/${movie.media_type}/${movie.id}`}>
+                    <Button className="shadow-green-500 shadow-sm h-8 w-full lg:mt-0 mt-3" >Watch Now</Button>
+                  </Link>
+                </div>
+              </CardContent>
             </Card>
           ))
         ) : (
