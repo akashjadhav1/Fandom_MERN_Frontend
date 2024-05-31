@@ -5,6 +5,8 @@ import { auth, db } from '@/config/firebase'; // Import Firebase config
 import { renderStars } from '@/assets/renderStar';
 import { doc, getDoc } from "firebase/firestore";
 import { onAuthStateChanged } from 'firebase/auth';
+import CardSkeleton from './card/CardSkeleton';
+import { Button } from './ui/button';
 
 const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500'; // Base URL for TMDb images
 
@@ -49,7 +51,15 @@ function Favorites() {
   };
 
   if (loading) {
-    return <p className='text-center'>Loading...</p>; // Show a loading message while fetching data
+    return  <div className="lg:container mx-auto mt-8">
+    <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+      {Array(10)
+        .fill()
+        .map((_, index) => (
+          <CardSkeleton key={index} />
+        ))}
+    </div>
+  </div>; // Show a loading message while fetching data
   }
 
   return (
@@ -64,13 +74,13 @@ function Favorites() {
             <Card key={movie.id} className="cursor-pointer hover:shadow-xl transition-shadow  duration-300 border-none bg-black shadow-white shadow-md rounded">
               <CardHeader className="relative flex flex-col items-center justify-center lg:h-[300px] ">
                 <div className="object-contain h-full">
-                  <Link to={`/moviesOverview/${movie.id}`}>
-                    <img 
-                      src={`${IMAGE_BASE_URL}${movie.poster_path}`} 
-                      alt={movie.title} 
-                      className="object-contain w-full h-full rounded"
-                    />
-                  </Link>
+                <Link to={`/mediaOverview/${movie.id}`}>
+                  <img 
+                    src={`${IMAGE_BASE_URL}${movie.poster_path}`} 
+                    alt={movie.title} 
+                    className="object-contain w-full h-full rounded"
+                  />
+                </Link>
                 </div>
               </CardHeader>
               <hr />
@@ -79,6 +89,13 @@ function Favorites() {
               <div className="flex justify-between pt-2 ">
                 <p className='lg:font-bold text-[10px] lg:text-lg'>Rating:</p>
                 <p className='flex lg:mt-1.5 lg:mx-1 lg:w-auto w-14'>{renderStars(movie.vote_average)}</p>
+              </div>
+              <div className='lg:flex lg:justify-center lg:items-center mt-3'>
+               
+                <Link to={`/mediaOverview/${movie.id}`}>
+                <Button className="shadow-green-500 shadow-sm h-8 w-full lg:mt-0 mt-3" >Watch Now</Button>
+                </Link>
+                
               </div>
             </CardContent>
             </Card>

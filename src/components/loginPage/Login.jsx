@@ -67,7 +67,7 @@ const LoginForm = () => {
         </div>
         <div className="flex items-center mb-4">
           <div className="border-b border-gray-600 flex-grow mx-2"></div>
-          <p>OR CONTINUE WITH</p>
+          <p className='text-sm'>OR CONTINUE WITH</p>
           <div className="border-b border-gray-600 flex-grow mx-2"></div>
         </div>
         <form onSubmit={handleSubmit(handleSignIn)}>

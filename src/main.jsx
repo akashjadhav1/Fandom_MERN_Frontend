@@ -5,7 +5,7 @@ import Navbar from "./components/Navbar.jsx";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Login from "./components/loginPage/Login.jsx";
 import Register from "./components/register/Register.jsx";
-import MoviesOverview from "./components/moviesOverview/MoviesOverview.jsx";
+import MediaOverview from "./components/mediaOverview/MediaOverview.jsx";
 import Favourites from "./components/Favourites.jsx";
 import FooterData from "./components/FooterData.jsx";
 import 'react-toastify/dist/ReactToastify.css';
@@ -37,7 +37,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
           <Route path="/" element={<App />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/moviesOverview/:id" element={<MoviesOverview />} />
+          <Route path="/mediaOverview/:id" element={<MediaOverview />} />
           <Route path="/favourites" element={<Favourites />} />
         </Routes>
       </div>

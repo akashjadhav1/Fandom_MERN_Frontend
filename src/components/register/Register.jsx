@@ -3,7 +3,7 @@ import { Label } from '../ui/label';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import { auth, googleProvider, db } from '@/config/firebase';
-import { createUserWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
+import { createUserWithEmailAndPassword, signInWithPopup, updateProfile } from 'firebase/auth';
 import { setDoc, doc } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
 import fandom from '@/assets/fandomLogo.svg';
@@ -42,12 +42,15 @@ function Register() {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
 
+      // Update the user's profile with the display name
+      await updateProfile(user, { displayName: name });
+
       // Create a user document in Firestore
       await setDoc(doc(db, "users", user.uid), {
         uid: user.uid,
-        name: name,
-        email: email,
-        photoURL: null, // No photo URL for email/password users
+        name: user.displayName,
+        email: user.email,
+        photoURL: user.photoURL || null, // Set photoURL to null if not available
       });
 
       // Navigate to login page
@@ -75,7 +78,7 @@ function Register() {
       });
 
       toast.success('User registered successfully', toastConfig);
-      navigate('/login');
+      navigate('/');
     } catch (error) {
       setError(error.message);
       toast.error(error.message, toastConfig);
@@ -95,9 +98,9 @@ function Register() {
           </Button>
         </div>
         <div className="flex justify-center items-center mt-4">
-          <div><p className="border border-b-2 w-[100px] mx-1"></p></div>
-          <p>OR CONTINUE WITH</p>
-          <div><p className="border border-b-2 w-[100px] mx-1"></p></div>
+          <div><p className="border border-b-2 lg:w-[100px] w-[75px] mx-1"></p></div>
+          <p className='text-sm'>OR CONTINUE WITH</p>
+          <div><p className="border border-b-2 lg:w-[100px] w-[75px]  mx-1"></p></div>
         </div>
         <form onSubmit={handleSignUp}>
           <div className="mt-5">

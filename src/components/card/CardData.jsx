@@ -6,7 +6,8 @@ import { auth, db } from '@/config/firebase';
 import heartFilled from '@/assets/heartFill.svg';
 import heartOutline from '@/assets/heart.svg';
 import { renderStars } from '@/assets/renderStar';
-import { doc, getDoc, setDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc, arrayUnion, arrayRemove } from "firebase/firestore";
+import { Button } from '../ui/button';
 
 const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500'; // Base URL for TMDb images
 
@@ -15,7 +16,6 @@ function CardData({ data }) {
   const [user, setUser] = useState(null);
   const navigate = useNavigate(); // Initialize useNavigate
 
-  console.log(data)
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(user => {
       if (user) {
@@ -45,64 +45,91 @@ function CardData({ data }) {
     return () => unsubscribe(); // Clean up the subscription on unmount
   }, []);
 
-  const toggleFavorite = (movieId) => {
+  const addToFavorites = async (item) => {
     if (!user) {
       navigate('/login'); // Redirect to login page if user is not logged in
       return;
     }
+  
+    const { id } = item; // Get the ID of the item
+  
+    // Check if id is defined
+    if (!id) {
+      console.error('Invalid item data:', item);
+      return;
+    }
 
-    setFavorites(prevFavorites => {
-      const updatedFavorites = prevFavorites.includes(movieId)
-        ? prevFavorites.filter(id => id !== movieId)
-        : [...prevFavorites, movieId];
-      
-      saveFavoritesToFirebase(updatedFavorites);
-      
-      return updatedFavorites;
-    });
+    // Update the favorites array in Firestore
+    try {
+      await setDoc(doc(db, 'users', user.uid), {
+        favorites: arrayUnion(id)
+      }, { merge: true });
+      // Update the local state
+      setFavorites(prevFavorites => [...prevFavorites, id]);
+    } catch (error) {
+      console.error('Error adding to favorites:', error);
+    }
   };
-
-  const saveFavoritesToFirebase = async (favoritesList) => {
-    if (user) {
-      try {
-        await setDoc(doc(db, 'users', user.uid), {
-          favorites: favoritesList
-        }, { merge: true });
-      } catch (error) {
-        console.error('Error saving favorites:', error);
-      }
+  
+  const removeFromFavorites = async (id) => {
+    if (!user) {
+      navigate('/login'); // Redirect to login page if user is not logged in
+      return;
+    }
+  
+    // Remove the item from favorites array in Firestore
+    try {
+      await setDoc(doc(db, 'users', user.uid), {
+        favorites: arrayRemove(id)
+      }, { merge: true });
+      // Update the local state
+      setFavorites(prevFavorites => prevFavorites.filter(favId => favId !== id));
+    } catch (error) {
+      console.error('Error removing from favorites:', error);
     }
   };
 
   return (
     <div className='lg:container mx-auto mt-8'>
       <div className='grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4'>
-        {data.map((movie) => (
-          <Card key={movie.id} className=" cursor-pointer hover:shadow-xl transition-shadow  duration-300 border-none bg-black shadow-white shadow-md rounded">
-            <CardHeader className="relative flex flex-col items-center justify-center lg:h-[300px] ">
+        {data.map((item) => (
+          <Card key={item.id} className="cursor-pointer hover:shadow-xl transition-shadow duration-300 border-none bg-black shadow-white shadow-md rounded">
+            <CardHeader className="relative flex flex-col items-center justify-center lg:h-[300px]">
               <div className="object-contain h-full">
-                <Link to={`/moviesOverview/${movie.id}`}>
+                <Link to={`/mediaOverview/${item.id}`}>
                   <img 
-                    src={`${IMAGE_BASE_URL}${movie.poster_path}`} 
-                    alt={movie.title} 
+                    src={`${IMAGE_BASE_URL}${item.poster_path}`} 
+                    alt={item.title || item.name} 
                     className="object-contain w-full h-full rounded"
                   />
                 </Link>
               </div>
-              {/* Render heart icon based on favorite status */}
+              {/* Add onClick to trigger addToFavorites */}
               <img
-                src={favorites.includes(movie.id) ? heartFilled : heartOutline}
+                src={favorites.includes(item.id) ? heartFilled : heartOutline}
                 alt="heart"
                 className="absolute top-2 right-2 lg:w-7 md:w-6 w-5 cursor-pointer"
-                onClick={() => toggleFavorite(movie.id)}
+                onClick={() => {
+                  if (favorites.includes(item.id)) {
+                    removeFromFavorites(item.id);
+                  } else {
+                    addToFavorites(item);
+                  }
+                }} 
               />
             </CardHeader>
             <hr />
             <CardContent>
-              <CardTitle className="lg:text-lg lg:font-bold mt-2 lg:text-center text-sm">{movie.title}</CardTitle>
-              <div className="flex justify-between pt-2 ">
+              <CardTitle className="lg:text-lg lg:font-bold mt-2 lg:text-center text-sm">{item.title || item.name}</CardTitle>
+              <div className="flex justify-between pt-2">
                 <p className='lg:font-bold text-[10px] lg:text-lg'>Rating:</p>
-                <p className='flex lg:mt-1.5 lg:mx-1 lg:w-auto w-14'>{renderStars(movie.vote_average)}</p>
+                <p className='flex lg:mt-1.5 lg:mx-1 lg:w-auto w-14'>{renderStars(item.vote_average)}</p>
+              </div>
+              <div className='lg:flex lg:justify-between lg:items-center mt-3'>
+                <p className='lg:p-1 shadow-orange-300 shadow-sm text-center text-sm p-1'>{item.media_type ? item.media_type.toUpperCase() : 'N/A'}</p>
+                <Link to={`/mediaOverview/${item.id}`}>
+                  <Button className="shadow-green-500 shadow-sm h-8 w-full lg:mt-0 mt-3">Watch Now</Button>
+                </Link>
               </div>
             </CardContent>
           </Card>

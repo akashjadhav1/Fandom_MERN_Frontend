@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import Logo from "@/assets/fandomLogo.svg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { auth } from "@/config/firebase";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "./ui/dropdown-menu";
@@ -11,6 +11,7 @@ export default function Navbar() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [menuOpen, setMenuOpen] = useState(false);
+  const navigate = useNavigate();
 
   const toastConfig = {
     position: "top-right",
@@ -39,9 +40,11 @@ export default function Navbar() {
     return () => unsubscribe();
   }, []);
 
+  
   const handleSignOut = async () => {
     try {
       await signOut(auth);
+      navigate('/')
       toast.success('User logged out successfully', toastConfig);
     } catch (error) {
       console.error("Error signing out: ", error);
@@ -54,10 +57,9 @@ export default function Navbar() {
       <div className="w-full max-w-7xl mx-auto px-4">
         <div className="flex justify-between h-14 items-center">
           <div>
-          <Link to="/">
-          <img src={Logo} alt="logo" className="lg:w-[14%] md:w-[20%] w-[40%]" />
-          </Link>
-            
+            <Link to="/">
+              <img src={Logo} alt="logo" className="lg:w-[14%] md:w-[20%] w-[23%]" />
+            </Link>
           </div>
 
           <div className="relative">
@@ -71,20 +73,32 @@ export default function Navbar() {
                     className="flex items-center gap-2 text-sm focus:outline-none"
                   >
                     {user.photoURL ? (
+                      
                       <img
                         src={user.photoURL}
                         alt="profile"
-                        className="w-[15rem] lg:w-[90px] md:w-[140px] rounded-full border-2 border-red-700 cursor-pointer"
+                        className="w-[10rem] lg:w-[90px] md:w-[140px] rounded-full border-2 border-red-700 cursor-pointer"
                       />
                     ) : (
-                      <span className="flex justify-center items-center border-4 border-yellow-700 text-pink-600 w-10 h-10 font-bold text-xl rounded-full">{user.email.substring(0,1).toUpperCase()}</span>
+                      <span className="flex justify-center items-center border-4 border-yellow-700 text-pink-600 w-10 h-10 font-bold text-xl rounded-full"><img src="../assets/profileLogo.png" alt="profile" /></span>
                     )}
                   </button>
                 </DropdownMenuTrigger>
                 {menuOpen && (
-                  <DropdownMenuContent className="absolute top-full right-[-10px] w-[250px] h-auto bg-gray-800 border-none shadow-lg rounded">
-                    <DropdownMenuItem className="hover:bg-gray-700">
-                      <Link to="/favourites">
+                  <DropdownMenuContent className="absolute top-0 right-[-10px] w-[250px] h-auto bg-gray-800 border-none shadow-blue-400 shadow-md rounded">
+                    <DropdownMenuItem>
+                      {user.photoURL && user.email ? (
+                        <div className="flex items-center mt-5">
+                          <img src={user.photoURL} className="w-9 h-9 rounded-full" alt="profile" />
+                          <p className="mx-2">{user.email}</p>
+                        </div>
+                      ) : (
+                        <p className="text-center">{user.email}</p>
+                      )}
+                    </DropdownMenuItem>
+                    <hr className="mt-2" />
+                    <Link to="/favourites">
+                      <DropdownMenuItem className="hover:bg-gray-700">
                         <Button
                           size="sm"
                           className="block"
@@ -92,8 +106,8 @@ export default function Navbar() {
                         >
                           Favorites
                         </Button>
-                      </Link>
-                    </DropdownMenuItem>
+                      </DropdownMenuItem>
+                    </Link>
                     <DropdownMenuItem className="hover:bg-gray-700">
                       <Button
                         size="sm"
@@ -111,7 +125,7 @@ export default function Navbar() {
             ) : (
               <div className="flex items-center gap-4">
                 <Link to="/login">
-                  <Button size="sm"  className="rounded" variant="outline">
+                  <Button size="sm" className="rounded" variant="outline">
                     Sign in
                   </Button>
                 </Link>
