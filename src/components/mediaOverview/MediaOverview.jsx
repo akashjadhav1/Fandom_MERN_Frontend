@@ -36,7 +36,6 @@ function MediaOverview() {
     }
   };
 
-  
   return (
     <>
       <div
@@ -51,7 +50,6 @@ function MediaOverview() {
                 className="object-contain w-full h-auto rounded shadow-gray-600 shadow-lg"
               />
             </div>
-           
 
             <div className="mt-10 md:mt-0 md:ml-10 w-full md:w-1/2 lg:w-2/3 text-center">
               <h1 className="text-3xl font-bold mb-4">
@@ -63,41 +61,44 @@ function MediaOverview() {
               </p>
 
               <div className="lg:flex lg:items-center lg:justify-center lg:mt-5">
-              {media.genres.map((genre) => (
-                <>
-                  <Button variant="outline" size="sm" className="mx-2 mt-5 border-none shadow-green-300 rounded shadow-md">
-                   
-                      {genre.name}
-                    
+                {media.genres.map((genre) => (
+                  <Button
+                    key={genre.id} // Add a unique key prop
+                    variant="outline"
+                    size="sm"
+                    className="mx-2 mt-5 border-none shadow-green-300 rounded shadow-md"
+                  >
+                    {genre.name}
                   </Button>
-                </>
-              ))}
-            </div>
+                ))}
+              </div>
 
               <div className="flex flex-col lg:p-10 md:flex-row lg:justify-between lg:items-center mt-5">
                 <div>
-                <p className="text-sm font-semibold mb-2 md:mb-0 text-start">
-                  Release Date:{" "}
-                  <span className="text-gray-400 ml-2">
-                    {mediatype === "movie"
-                      ? media.release_date
-                      : media.first_air_date}
-                  </span>
-                </p>
-                <p className="flex items-center text-sm font-semibold">
-                  Rating:{" "}
-                  <span className="flex text-gray-400 ml-2">
-                    {renderStars(media.vote_average)}
-                  </span>
-                </p>
+                  <p className="text-sm font-semibold mb-2 md:mb-0 text-start">
+                    Release Date:{" "}
+                    <span className="text-gray-400 ml-2">
+                      {mediatype === "movie"
+                        ? media.release_date
+                        : media.first_air_date}
+                    </span>
+                  </p>
+                  <div className="flex items-center text-sm font-semibold">
+                    Rating:{" "}
+                    <span className="flex text-gray-400 ml-2">
+                      {renderStars(media.vote_average)}
+                    </span>
+                  </div>
                 </div>
                 <div className="lg:mx-3 md:mx-3">
-                <p className=" text-sm font-semibold mb-2 md:mb-0 text-start">
-                  Status: <span className="text-gray-400">{media.status}</span>
-                </p>
-                <p className=" text-sm font-semibold mb-2 md:mb-0 text-start">
-                  Popularity: <span className="text-gray-400">{media.popularity}</span>
-                </p>
+                  <p className=" text-sm font-semibold mb-2 md:mb-0 text-start">
+                    Status:{" "}
+                    <span className="text-gray-400">{media.status}</span>
+                  </p>
+                  <p className=" text-sm font-semibold mb-2 md:mb-0 text-start">
+                    Popularity:{" "}
+                    <span className="text-gray-400">{media.popularity}</span>
+                  </p>
                 </div>
               </div>
               {trailerUrl ? (
@@ -128,7 +129,7 @@ function MediaOverview() {
             <CarouselContent className="-ml-1">
               {cast.map((actor) => (
                 <CarouselItem
-                  key={`${actor.cast_id}-${actor.id}`}
+                  key={actor.cast_id || actor.id} // Ensure a unique key prop
                   className="pl-1 md:basis-1/3 lg:basis-1/4 basis-1/1"
                 >
                   <div className="p-1">
