@@ -28,7 +28,9 @@ function useSearchMovies(searchQuery = "", filter = "all") {
       }
       const res = await fetch(endpoint);
       const actualData = await res.json();
-      setData(actualData.results);
+      // Filter out the results where media_type is "person"
+      const filteredData = actualData.results.filter(item => item.media_type !== "person");
+      setData(filteredData);
     } catch (error) {
       setError(error);
     } finally {
