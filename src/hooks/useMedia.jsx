@@ -3,6 +3,18 @@ import { useState, useEffect } from 'react';
 const apiBaseURL = "https://api.themoviedb.org/3";
 const apiKey = import.meta.env.VITE_TMDB_API_KEY;
 
+async function fetchWithTimeout(resource, options = {}) {
+  const { timeout = 8000 } = options; // Default timeout of 8 seconds
+  const controller = new AbortController();
+  const id = setTimeout(() => controller.abort(), timeout);
+  const response = await fetch(resource, {
+    ...options,
+    signal: controller.signal  
+  });
+  clearTimeout(id);
+  return response;
+}
+
 function useMedia(id, mediaType) {
   const [media, setMedia] = useState(null);
   const [cast, setCast] = useState([]);
@@ -11,27 +23,38 @@ function useMedia(id, mediaType) {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    let isMounted = true; // Flag to check if the component is still mounted
+    let isMounted = true;
 
-    async function fetchMedia() {
+    async function fetchData(url, setter) {
       try {
         setLoading(true);
+        let retries = 3;
+        let success = false;
+        let data;
 
-        // Fetch media data (movie or TV show)
-        const response = await fetch(`${apiBaseURL}/${mediaType}/${id}?api_key=${apiKey}`);
-        if (!response.ok) {
-          throw new Error(`Error: ${response.status} ${response.statusText}`);
+        while (retries > 0 && !success) {
+          try {
+            const response = await fetchWithTimeout(url);
+            if (!response.ok) {
+              throw new Error(`Error: ${response.status} ${response.statusText}`);
+            }
+            data = await response.json();
+            success = true;
+          } catch (err) {
+            retries--;
+            if (retries === 0) {
+              throw err;
+            }
+          }
         }
-        
-        const data = await response.json();
 
         if (isMounted) {
-          setMedia(data);
-          setError(null); // Clear any previous errors
+          setter(data);
+          setError(null);
         }
-      } catch (error) {
+      } catch (err) {
         if (isMounted) {
-          setError(error);
+          setError(err);
         }
       } finally {
         if (isMounted) {
@@ -40,54 +63,14 @@ function useMedia(id, mediaType) {
       }
     }
 
-    async function fetchCast() {
-      try {
-        // Fetch cast data (movie or TV show)
-        const response = await fetch(`${apiBaseURL}/${mediaType}/${id}/credits?api_key=${apiKey}`);
-        if (!response.ok) {
-          throw new Error(`Error: ${response.status} ${response.statusText}`);
-        }
-        
-        const data = await response.json();
-
-        if (isMounted) {
-          setCast(data.cast);
-        }
-      } catch (error) {
-        if (isMounted) {
-          setError(error);
-        }
-      }
-    }
-
-    async function fetchVideos() {
-      try {
-        // Fetch videos data (movie or TV show)
-        const response = await fetch(`${apiBaseURL}/${mediaType}/${id}/videos?api_key=${apiKey}`);
-        if (!response.ok) {
-          throw new Error(`Error: ${response.status} ${response.statusText}`);
-        }
-        
-        const data = await response.json();
-
-        if (isMounted) {
-          setVideos(data.results);
-        }
-      } catch (error) {
-        if (isMounted) {
-          setError(error);
-        }
-      }
-    }
-
     if (id && mediaType) {
-      fetchMedia();
-      fetchCast();
-      fetchVideos();
+      fetchData(`${apiBaseURL}/${mediaType}/${id}?api_key=${apiKey}`, setMedia);
+      fetchData(`${apiBaseURL}/${mediaType}/${id}/credits?api_key=${apiKey}`, (data) => setCast(data.cast));
+      fetchData(`${apiBaseURL}/${mediaType}/${id}/videos?api_key=${apiKey}`, (data) => setVideos(data.results));
     }
 
     return () => {
-      isMounted = false; // Cleanup function to set the flag to false on unmount
+      isMounted = false;
     };
   }, [id, mediaType]);
 
