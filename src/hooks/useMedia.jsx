@@ -22,7 +22,7 @@ function useMedia(id, mediaType) {
 
         while (retries > 0 && !data) {
           try {
-            const response = await axios.get(url, { timeout: 15000 });
+            const response = await axios.get(url, { timeout: 20000 });
             data = response.data;
           } catch (err) {
             retries--;

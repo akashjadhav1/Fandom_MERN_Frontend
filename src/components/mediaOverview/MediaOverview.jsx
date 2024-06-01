@@ -1,5 +1,5 @@
-// MediaOverview.jsx
-import { useParams } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import useMedia from "@/hooks/useMedia";
 import { Button } from "@/components/ui/button";
 import { renderStars } from "@/assets/renderStar";
@@ -12,13 +12,24 @@ import {
 } from "@/components/ui/carousel";
 import { Card, CardContent } from "../ui/card";
 import MediaOverviewSkeleton from "./MediaOverviewSkeleton";
+import { auth } from '@/config/firebase'; // Import Firebase authentication
 
 const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w500"; // Base URL for TMDb images
 
 function MediaOverview() {
   const { mediatype, id } = useParams();
-
+  const navigate = useNavigate(); // Initialize useNavigate
   const { media, cast, videos, loading, error } = useMedia(id, mediatype);
+
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged(user => {
+      setUser(user);
+    });
+
+    return () => unsubscribe(); // Clean up the subscription on unmount
+  }, []);
 
   if (loading) return <MediaOverviewSkeleton />;
   if (error) return <p>Error: {error.message}</p>;
@@ -31,7 +42,9 @@ function MediaOverview() {
     : null;
 
   const handleWatchNowClick = () => {
-    if (trailerUrl) {
+    if (!user) {
+      navigate('/login'); // Redirect to login page if user is not logged in
+    } else if (trailerUrl) {
       window.open(trailerUrl, "_blank");
     }
   };
@@ -101,23 +114,15 @@ function MediaOverview() {
                   </p>
                 </div>
               </div>
-              {trailerUrl ? (
-                <div className="mt-5">
-                  <Button
-                    onClick={handleWatchNowClick}
-                    variant="outline"
-                    className="w-full"
-                  >
-                    Watch Now
-                  </Button>
-                </div>
-              ) : (
-                <div className="mt-5">
-                  <Button variant="outline" className="w-full">
-                    Watch Now
-                  </Button>
-                </div>
-              )}
+              <div className="mt-5">
+                <Button
+                  onClick={handleWatchNowClick}
+                  variant="outline"
+                  className="w-full"
+                >
+                  Watch Now
+                </Button>
+              </div>
             </div>
           </>
         )}
