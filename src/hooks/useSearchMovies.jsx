@@ -33,11 +33,20 @@ function useSearchMovies(searchQuery = "", filter = "all") {
 
       while (retries > 0 && !actualData) {
         try {
-          const res = await axios.get(endpoint, { timeout: 8000 });
+          const res = await axios.get(endpoint, { timeout: 30000 }); // Increased timeout to 30 seconds
           actualData = res.data;
         } catch (err) {
           retries--;
           console.error(`Fetch attempt failed. Retries left: ${retries}`, err);
+          if (err.response) {
+            console.error(`Error response data: ${JSON.stringify(err.response.data)}`);
+            console.error(`Error response status: ${err.response.status}`);
+            console.error(`Error response headers: ${JSON.stringify(err.response.headers)}`);
+          } else if (err.request) {
+            console.error(`Error request data: ${JSON.stringify(err.request)}`);
+          } else {
+            console.error(`Error message: ${err.message}`);
+          }
           if (retries === 0) {
             throw err;
           }
