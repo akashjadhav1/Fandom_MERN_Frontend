@@ -40,17 +40,15 @@ function useSearchMovies(searchQuery = "", filter = "all") {
       }
       console.log('Fetching data from:', endpoint);
       let retries = 3;
-      let success = false;
       let actualData;
 
-      while (retries > 0 && !success) {
+      while (retries > 0 && !actualData) {
         try {
           const res = await fetchWithTimeout(endpoint);
           if (!res.ok) {
             throw new Error(`Error: ${res.status} ${res.statusText}`);
           }
           actualData = await res.json();
-          success = true;
         } catch (err) {
           retries--;
           if (retries === 0) {
@@ -59,10 +57,12 @@ function useSearchMovies(searchQuery = "", filter = "all") {
         }
       }
 
+      // Filter out the results where media_type is "person"
       const filteredData = actualData.results.filter(item => item.media_type !== "person");
       setData(filteredData);
+      setError(null); // Clear any previous errors
     } catch (err) {
-      setError(err);
+      setError(err); // Set error state for UI to handle
     } finally {
       setLoading(false);
     }
