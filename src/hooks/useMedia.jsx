@@ -1,19 +1,8 @@
 import { useState, useEffect } from 'react';
+import axios from 'axios';
 
 const apiBaseURL = "https://api.themoviedb.org/3";
 const apiKey = import.meta.env.VITE_TMDB_API_KEY;
-
-async function fetchWithTimeout(resource, options = {}) {
-  const { timeout = 8000 } = options; // Default timeout of 8 seconds
-  const controller = new AbortController();
-  const id = setTimeout(() => controller.abort(), timeout);
-  const response = await fetch(resource, {
-    ...options,
-    signal: controller.signal  
-  });
-  clearTimeout(id);
-  return response;
-}
 
 function useMedia(id, mediaType) {
   const [media, setMedia] = useState(null);
@@ -23,25 +12,21 @@ function useMedia(id, mediaType) {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    let isMounted = true;
+    let isMounted = true; // Flag to check if the component is still mounted
 
     async function fetchData(url, setter) {
       try {
         setLoading(true);
         let retries = 3;
-        let success = false;
         let data;
 
-        while (retries > 0 && !success) {
+        while (retries > 0 && !data) {
           try {
-            const response = await fetchWithTimeout(url);
-            if (!response.ok) {
-              throw new Error(`Error: ${response.status} ${response.statusText}`);
-            }
-            data = await response.json();
-            success = true;
+            const response = await axios.get(url, { timeout: 8000 });
+            data = response.data;
           } catch (err) {
             retries--;
+            console.error(`Fetch attempt failed. Retries left: ${retries}`, err);
             if (retries === 0) {
               throw err;
             }
@@ -53,6 +38,7 @@ function useMedia(id, mediaType) {
           setError(null);
         }
       } catch (err) {
+        console.error('Failed to fetch media data:', err);
         if (isMounted) {
           setError(err);
         }

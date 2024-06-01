@@ -7,6 +7,7 @@ import { doc, getDoc } from "firebase/firestore";
 import { onAuthStateChanged } from 'firebase/auth';
 import CardSkeleton from './card/CardSkeleton';
 import { Button } from './ui/button';
+import axios from 'axios';
 
 const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500'; // Base URL for TMDb images
 
@@ -14,7 +15,6 @@ function Favorites() {
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(true); // Loading state to handle UI state
 
- 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -45,8 +45,8 @@ function Favorites() {
 
   const fetchFavoriteMovies = async (favorites) => {
     const requests = favorites.map(({ id, media_type }) =>
-      fetch(`https://api.themoviedb.org/3/${media_type}/${id}?api_key=${import.meta.env.VITE_TMDB_API_KEY}`)
-        .then(response => response.json())
+      axios.get(`https://api.themoviedb.org/3/${media_type}/${id}?api_key=${import.meta.env.VITE_TMDB_API_KEY}`)
+        .then(response => response.data)
         .then(data => ({ ...data, media_type })) // Add media_type to the movie data
     );
     const results = await Promise.all(requests);

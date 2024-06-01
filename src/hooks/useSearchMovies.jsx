@@ -1,19 +1,8 @@
 import { useState, useEffect } from 'react';
+import axios from 'axios';
 
 const apiBaseURL = "https://api.themoviedb.org/3";
 const apiKey = import.meta.env.VITE_TMDB_API_KEY;
-
-async function fetchWithTimeout(resource, options = {}) {
-  const { timeout = 8000 } = options; // Default timeout of 8 seconds
-  const controller = new AbortController();
-  const id = setTimeout(() => controller.abort(), timeout);
-  const response = await fetch(resource, {
-    ...options,
-    signal: controller.signal  
-  });
-  clearTimeout(id);
-  return response;
-}
 
 function useSearchMovies(searchQuery = "", filter = "all") {
   const [data, setData] = useState([]);
@@ -44,25 +33,23 @@ function useSearchMovies(searchQuery = "", filter = "all") {
 
       while (retries > 0 && !actualData) {
         try {
-          const res = await fetchWithTimeout(endpoint);
-          if (!res.ok) {
-            throw new Error(`Error: ${res.status} ${res.statusText}`);
-          }
-          actualData = await res.json();
+          const res = await axios.get(endpoint, { timeout: 8000 });
+          actualData = res.data;
         } catch (err) {
           retries--;
+          console.error(`Fetch attempt failed. Retries left: ${retries}`, err);
           if (retries === 0) {
             throw err;
           }
         }
       }
 
-      // Filter out the results where media_type is "person"
       const filteredData = actualData.results.filter(item => item.media_type !== "person");
       setData(filteredData);
-      setError(null); // Clear any previous errors
+      setError(null);
     } catch (err) {
-      setError(err); // Set error state for UI to handle
+      console.error('Failed to fetch movies data:', err);
+      setError(err);
     } finally {
       setLoading(false);
     }
