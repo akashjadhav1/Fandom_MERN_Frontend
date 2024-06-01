@@ -33,7 +33,7 @@ function useSearchMovies(searchQuery = "", filter = "all") {
 
       while (retries > 0 && !actualData) {
         try {
-          const res = await axios.get(endpoint, { timeout: 20000 }); // Increased timeout to 30 seconds
+          const res = await axios.get(endpoint, { timeout: 30000 }); // Increased timeout to 30 seconds
           actualData = res.data;
         } catch (err) {
           retries--;
