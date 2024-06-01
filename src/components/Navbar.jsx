@@ -101,7 +101,7 @@ export default function Navbar() {
                         <div className="flex items-center mt-5">
                           <img
                             src={user.photoURL}
-                            className="w-9 h-9 rounded-full"
+                            className="w-9 h-9 rounded-full border-2 border-yellow-400 "
                             alt="profile"
                           />
                           <p className="mx-2">{user.email}</p>

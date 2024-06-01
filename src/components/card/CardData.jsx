@@ -9,12 +9,15 @@ import { renderStars } from '@/assets/renderStar';
 import { doc, getDoc, setDoc, arrayUnion, arrayRemove } from "firebase/firestore";
 import { Button } from '../ui/button';
 
+
 const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500'; // Base URL for TMDb images
 
 function CardData({ data }) {
   const [favorites, setFavorites] = useState([]);
   const [user, setUser] = useState(null);
   const navigate = useNavigate(); // Initialize useNavigate
+
+
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(user => {
@@ -130,7 +133,7 @@ function CardData({ data }) {
             </CardHeader>
             <hr />
             <CardContent>
-              <CardTitle className="lg:text-md lg:font-bold mt-2 lg:text-center text-sm">{item.title || item.name}</CardTitle>
+              <CardTitle className="lg:text-md lg:font-bold mt-2 lg:text-center text-sm truncate">{item.title || item.name}</CardTitle>
               <div className="flex justify-between pt-2">
                 <p className='lg:font-bold text-[10px] lg:text-md mt-0.5'>Rating:</p>
                 <p className='flex lg:w-auto w-14'>{renderStars(item.vote_average)}</p>
