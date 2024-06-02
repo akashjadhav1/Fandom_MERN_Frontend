@@ -39,6 +39,21 @@ Install my-project with npm
   npm install my-project
   cd my-project
 ```
+
+
+
+1. Clone the repository:
+   ```sh
+   git clone https://github.com/akashjadhav1/Snapdeal_.git
+   ```
+2. Navigate to the project directory:
+   ```sh
+   cd Snapdeal_
+   ```
+3. Install the dependencies:
+   ```sh
+   npm install
+   ```
     
 ## Deployment
 
