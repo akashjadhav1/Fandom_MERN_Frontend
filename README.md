@@ -69,9 +69,7 @@ To deploy this project run
 1.Create a .env.sample file in the root directory based on the provided .env.sample for reference.
 
 2.Add necessary environment variables to the .env.sample file.
-## Demo
 
-Insert gif or link to demo
 
 
 ## Environment Variables
