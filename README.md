@@ -44,11 +44,11 @@ Install my-project with npm
 
 1. Clone the repository:
    ```sh
-   git clone https://github.com/akashjadhav1/Snapdeal_.git
+   git clone (https://github.com/akashjadhav1/Fandom.git)
    ```
 2. Navigate to the project directory:
    ```sh
-   cd Snapdeal_
+   cd fandom
    ```
 3. Install the dependencies:
    ```sh
