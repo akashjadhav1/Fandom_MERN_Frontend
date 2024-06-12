@@ -2,13 +2,15 @@ import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "./ui/button";
 import CardData from "./card/CardData";
-import useSearchMovies from "@/hooks/useSearchMovies";
+import useAllMediaData from "@/hooks/useAllMedia";
 import CardSkeleton from "./card/CardSkeleton";
 
 function HomePage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [filter, setFilter] = useState("all");
-  const { data, loading, error } = useSearchMovies(searchQuery, filter);
+  const { data, loading, error } = useAllMediaData(searchQuery);
+
+  console.log(data);
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -49,14 +51,14 @@ function HomePage() {
           All
         </Button>
         <Button 
-        size="sm"
-          className={`mx-4 shadow-green-500 shadow-md rounded ${filter === 'movies' ? 'shadow-orange-500 text-white' : ''}`}
-          onClick={() => handleFilterChange("movies")}
+          size="sm"
+          className={`mx-4 shadow-green-500 shadow-md rounded ${filter === 'movie' ? 'shadow-orange-500 text-white' : ''}`}
+          onClick={() => handleFilterChange("movie")}
         >
           Movies
         </Button>
         <Button 
-        size="sm"
+          size="sm"
           className={`mx-4 shadow-green-500 shadow-md rounded ${filter === 'tv' ? 'shadow-orange-500 text-white' : ''}`}
           onClick={() => handleFilterChange("tv")}
         >
@@ -65,7 +67,7 @@ function HomePage() {
       </div>
 
       <div className="w-[80%] m-auto">
-        {loading && (
+      {loading && (
           <div className="lg:container mx-auto mt-8">
             <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
               {Array(10)
@@ -76,8 +78,8 @@ function HomePage() {
             </div>
           </div>
         )}
-        {error && <p>Error: {error.message}</p>}
-        {!loading && !error && <CardData data={data} />}
+        {error && <div>Error: {error.message}</div>}
+        {!loading && !error && <CardData trendingData={data} filter={filter} searchQuery={searchQuery} />}
       </div>
     </div>
   );

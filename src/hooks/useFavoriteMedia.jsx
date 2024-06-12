@@ -3,8 +3,8 @@ import axios from 'axios';
 
 const apiURL = "https://fandom-mern.onrender.com/api/all/data"; // Adjust the base URL as needed
 
-function useMedia(id) {
-  const [media, setMedia] = useState(null);
+function useFavoriteMedia(ids) {
+  const [media, setMedia] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -16,24 +16,11 @@ function useMedia(id) {
         setLoading(true);
         const response = await axios.get(apiURL, { timeout: 10000 });
         if (isMounted) {
-          
-          
-          // Access the correct property in the response object that contains the array
           const allData = response.data.data || [];
-        
 
-          // Ensure allData is an array
           if (Array.isArray(allData)) {
-            // Log all the IDs to compare
-            
-            
-
-            // Convert provided id to number for comparison
-            const numericId = Number(id);
-            
-
-            const filteredMedia = allData.find((item) => item.id === numericId) || null;
-            
+            const numericIds = ids.map(Number);
+            const filteredMedia = allData.filter((item) => numericIds.includes(item.id));
             setMedia(filteredMedia);
             setError(null);
           } else {
@@ -53,16 +40,18 @@ function useMedia(id) {
       }
     }
 
-    if (id) {
+    if (ids && ids.length > 0) {
       fetchMediaData();
+    } else {
+      setLoading(false);
     }
 
     return () => {
       isMounted = false;
     };
-  }, [id]);
+  }, [ids]);
 
   return { media, loading, error };
 }
 
-export default useMedia;
+export default useFavoriteMedia;

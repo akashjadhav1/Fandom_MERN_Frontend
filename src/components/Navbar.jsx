@@ -2,21 +2,22 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import Logo from "@/assets/fandomLogo.svg";
 import { Link, useNavigate } from "react-router-dom";
-import { auth } from "@/config/firebase";
-import { onAuthStateChanged, signOut } from "firebase/auth";
+import Cookies from "js-cookie";
+import { toast } from "react-toastify";
+
 import {
   DropdownMenu,
   DropdownMenuTrigger,
   DropdownMenuContent,
   DropdownMenuItem,
 } from "./ui/dropdown-menu";
-import { toast } from "react-toastify";
-import defaultProfile from '@/assets/profileLogo.png';
+import defaultProfile from "@/assets/profileLogo.png";
 
 export default function Navbar() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isUserLoading, setIsUserLoading] = useState(false); 
   const navigate = useNavigate();
 
   const toastConfig = {
@@ -30,25 +31,31 @@ export default function Navbar() {
     theme: "dark",
   };
 
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(
-      auth,
-      (currentUser) => {
-        setUser(currentUser);
-        setLoading(false);
-      },
-      (error) => {
-        console.error("Error getting user profile:", error);
-        setLoading(false);
+  const checkUser = async () => {
+    setIsUserLoading(true);
+    try {
+      const token = Cookies.get("authToken");
+      if (token) {
+        const userData = JSON.parse(atob(token.split('.')[1])); 
+        setUser(userData);
       }
-    );
+    } catch (error) {
+      console.error("Error processing token:", error);
+      setUser(null);
+    } finally {
+      setLoading(false);
+      setIsUserLoading(false);
+    }
+  };
 
-    return () => unsubscribe();
+  useEffect(() => {
+    checkUser();
   }, []);
 
   const handleSignOut = async () => {
     try {
-      await signOut(auth);
+      Cookies.remove("authToken");
+      setUser(null);
       navigate("/");
       toast.success("User logged out successfully", toastConfig);
     } catch (error) {
@@ -96,43 +103,49 @@ export default function Navbar() {
                 </DropdownMenuTrigger>
                 {menuOpen && (
                   <DropdownMenuContent className="absolute top-0 right-[-10px] w-[250px] h-auto bg-gray-800 border-none shadow-blue-400 shadow-md rounded">
-                    <DropdownMenuItem>
-                      {user.photoURL && user.email ? (
-                        <div className="flex items-center mt-5">
-                          <img
-                            src={user.photoURL}
-                            className="w-9 h-9 rounded-full border-2 border-yellow-400 "
-                            alt="profile"
-                          />
-                          <p className="mx-2">{user.email}</p>
-                        </div>
-                      ) : (
-                        <p className="text-center">{user.email}</p>
-                      )}
-                    </DropdownMenuItem>
-                    <hr className="mt-2" />
-                    <Link to="/favourites">
-                      <DropdownMenuItem className="hover:bg-gray-700">
-                        <Button
-                          size="sm"
-                          className="block"
-                          onClick={() => setMenuOpen(false)}
-                        >
-                          Favorites
-                        </Button>
-                      </DropdownMenuItem>
-                    </Link>
-                    <DropdownMenuItem className="hover:bg-gray-700">
-                      <Button
-                        size="sm"
-                        onClick={() => {
-                          handleSignOut();
-                          setMenuOpen(false);
-                        }}
-                      >
-                        Sign out
-                      </Button>
-                    </DropdownMenuItem>
+                    {isUserLoading ? (
+                      <p className="text-center p-4">Loading...</p> 
+                    ) : (
+                      <>
+                        <DropdownMenuItem>
+                          {user.photoURL && user.email ? (
+                            <div className="flex items-center mt-5">
+                              <img
+                                src={user.photoURL}
+                                className="w-9 h-9 rounded-full border-2 border-yellow-400 "
+                                alt="profile"
+                              />
+                              <p className="mx-2">{user.email}</p>
+                            </div>
+                          ) : (
+                            <p className="text-center">{user.email}</p>
+                          )}
+                        </DropdownMenuItem>
+                        <hr className="mt-2" />
+                        <Link to="/favourites">
+                          <DropdownMenuItem className="hover:bg-gray-700">
+                            <Button
+                              size="sm"
+                              className="block"
+                              onClick={() => setMenuOpen(false)}
+                            >
+                              Favorites
+                            </Button>
+                          </DropdownMenuItem>
+                        </Link>
+                        <DropdownMenuItem className="hover:bg-gray-700">
+                          <Button
+                            size="sm"
+                            onClick={() => {
+                              handleSignOut();
+                              setMenuOpen(false);
+                            }}
+                          >
+                            Sign out
+                          </Button>
+                        </DropdownMenuItem>
+                      </>
+                    )}
                   </DropdownMenuContent>
                 )}
               </DropdownMenu>

@@ -37,7 +37,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
           <Route path="/" element={<App />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/mediaOverview/:mediatype/:id" element={<MediaOverview />} />
+          <Route path="/mediaOverview/:id" element={<MediaOverview />} />
           <Route path="/favourites" element={<Favourites />} />
         </Routes>
       </div>

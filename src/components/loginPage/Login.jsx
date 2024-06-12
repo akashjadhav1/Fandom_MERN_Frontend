@@ -2,14 +2,13 @@ import { useState } from 'react';
 import { Label } from '../ui/label';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
-import { signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
-import { auth, googleProvider } from '@/config/firebase';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
-import google from "@/assets/google.svg";
-import fandom from '@/assets/fandomLogo.svg'
+import axios from 'axios';
+import Cookies from 'js-cookie';
 import { toast } from 'react-toastify';
+
+import fandom from '@/assets/fandomLogo.svg';
 
 const toastConfig = {
   position: "top-right",
@@ -31,46 +30,35 @@ const LoginForm = () => {
   const handleSignIn = async (data) => {
     setLoading(true);
     try {
-      await signInWithEmailAndPassword(auth, data.email, data.password);
-      console.log("User logged in successfully");
-      toast.success('User logged in successfully', toastConfig);
-      navigate('/');
+      const response = await axios.post('http://localhost:8080/api/user/login', {
+        email: data.email,
+        password: data.password
+      });
+
+      if (response.status === 200) {
+        const { token } = response.data; // backend sends the token in response.data.token
+        Cookies.set('authToken', token, { expires: 7, secure: true }); // Set token as cookie, expires in 7 days
+
+        
+        navigate('/');
+        toast.success('User logged in successfully', toastConfig);
+        
+      } else {
+        throw new Error('Login failed');
+      }
     } catch (error) {
       setError(error.message);
-      toast.error(error.message,toastConfig)
+      toast.error(error.message, toastConfig);
     } finally {
       setLoading(false);
-    }
-  };
-
-  const signInWithGoogle = async () => {
-    try {
-      await signInWithPopup(auth, googleProvider);
-      toast.success('User logged in successfully', toastConfig);
-      navigate('/');
-    } catch (error) {
-      setError(error.message);
-      toast.error(error.message,toastConfig);
     }
   };
 
   return (
     <div className="backgroundImage flex items-center justify-center lg:min-h-screen p-4 lg:p-0">
       <div className="w-full max-w-md bg-gray-700 p-6 rounded shadow-black shadow-lg">
-        
         <div className="flex justify-center items-center">
           <img src={fandom} alt="fandom" className='w-[100px] lg:w-[150px] text-center rounded' />
-        </div>
-        <div className="mt-4 mb-4">
-          <Button variant="outline" className="w-full rounded flex items-center justify-center" onClick={signInWithGoogle}>
-            <img src={google} alt="google" className="w-6 h-6 mr-2" />
-            <p className='mx-2'>Login with Google</p>
-          </Button>
-        </div>
-        <div className="flex items-center mb-4">
-          <div className="border-b border-gray-600 flex-grow mx-2"></div>
-          <p className='text-sm'>OR CONTINUE WITH</p>
-          <div className="border-b border-gray-600 flex-grow mx-2"></div>
         </div>
         <form onSubmit={handleSubmit(handleSignIn)}>
           <div className="mt-5">

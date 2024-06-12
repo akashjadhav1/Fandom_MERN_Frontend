@@ -1,58 +1,47 @@
 import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Link } from "react-router-dom";
-import { auth, db } from '@/config/firebase'; // Import Firebase config
 import { renderStars } from '@/assets/renderStar';
-import { doc, getDoc } from "firebase/firestore";
-import { onAuthStateChanged } from 'firebase/auth';
 import CardSkeleton from './card/CardSkeleton';
 import { Button } from './ui/button';
 import axios from 'axios';
+import Cookies from 'js-cookie';
+import useFavoriteMedia from '@/hooks/useFavoriteMedia';
 
 const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500'; // Base URL for TMDb images
 
 function Favorites() {
-  const [movies, setMovies] = useState([]);
-  const [loading, setLoading] = useState(true); // Loading state to handle UI state
+  
+  
+  const [favoriteIds, setFavoriteIds] = useState([]);
+  const { media, loading, error } = useFavoriteMedia(favoriteIds);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        fetchFavorites(user);
-      } else {
-        setLoading(false); // No user is signed in, set loading to false
-      }
-    });
-
-    return () => unsubscribe(); // Clean up the subscription on unmount
-  }, []);
-
-  const fetchFavorites = async (user) => {
-    try {
-      const docRef = doc(db, 'users', user.uid);
-      const docSnap = await getDoc(docRef);
-      if (docSnap.exists()) {
-        const userData = docSnap.data();
-        if (userData.favorites) {
-          fetchFavoriteMovies(userData.favorites);
+    const fetchFavorites = async () => {
+      try {
+        const token = Cookies.get("authToken");
+        if (!token) {
+          throw new Error("No token found in cookies");
         }
+
+        const response = await axios.get(
+          "https://fandom-mern.onrender.com/api/user/favorites",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        setFavoriteIds(response.data.favorites || []); // Ensure favorites is always an array of IDs
+      } catch (error) {
+        console.error("Error fetching favorites:", error);
       }
-    } catch (error) {
-      console.error('Error getting user favorites:', error);
-    }
-    setLoading(false); // Set loading to false after fetching data
-  };
+    };
 
-  const fetchFavoriteMovies = async (favorites) => {
-    const requests = favorites.map(({ id, media_type }) =>
-      axios.get(`https://api.themoviedb.org/3/${media_type}/${id}?api_key=${import.meta.env.VITE_TMDB_API_KEY}`)
-        .then(response => response.data)
-        .then(data => ({ ...data, media_type })) // Add media_type to the movie data
-    );
-    const results = await Promise.all(requests);
-    setMovies(results);
-  };
-
+    fetchFavorites();
+  }, []);
+ 
   if (loading) {
     return (
       <div className="lg:container mx-auto mt-8">
@@ -67,15 +56,19 @@ function Favorites() {
     ); // Show a loading message while fetching data
   }
 
+
+
+
+
   return (
     <div className="container mx-auto mt-8">
       <div className='text-center'>
-        <h1 className='text-2xl font-bold mb-3 '>All Favourites</h1>
+        <h1 className='text-2xl font-bold mb-3 '>All Favorites</h1>
         <hr />
       </div>
       <div className='grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 max-w-full mx-5 mt-8'>
-        {movies.length > 0 ? (
-          movies.map((movie) => (
+        {media.length > 0 ? (
+          media.map((movie) => (
             <Card key={movie.id} className="cursor-pointer hover:shadow-xl transition-shadow  duration-300 border-none bg-black shadow-white shadow-md rounded">
               <CardHeader className="relative flex flex-col items-center justify-center lg:h-[200px] ">
                 <div className="object-contain h-full">
