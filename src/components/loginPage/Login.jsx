@@ -65,6 +65,7 @@ const LoginForm = () => {
             <Label>Email</Label>
             <Input
               placeholder="Email"
+              autoComplete="email"
               outline="none"
               {...register('email', { required: true })}
             />
@@ -75,6 +76,7 @@ const LoginForm = () => {
             <Input
               placeholder="Password"
               type="password"
+              autoComplete="current-password"
               {...register('password', { required: true })}
             />
             {errors.password && <p className="text-red-500">Password is required</p>}

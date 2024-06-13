@@ -1,15 +1,20 @@
-import { useState, useEffect } from "react";
+
 import { useParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { renderStars } from "@/assets/renderStar";
 import MediaOverviewSkeleton from "./MediaOverviewSkeleton";
 import useMedia from "@/hooks/useMedia";
+import genreData from "@/assets/genre";
+
+
 
 const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w500"; // Base URL for TMDb images
 
 function MediaOverview() {
   const { id } = useParams();
   const { media, loading, error } = useMedia(id);
+
+  
 
   if (loading) return <MediaOverviewSkeleton />;
   if (error) return <p>Error: {error.message}</p>;
@@ -44,7 +49,7 @@ function MediaOverview() {
                     size="sm"
                     className="mx-2 mt-5 border-none shadow-green-300 rounded shadow-md"
                   >
-                    {genre}
+                    {genreData[genre]}
                   </Button>
                 ))}
               </div>
@@ -54,7 +59,7 @@ function MediaOverview() {
                   <p className="text-sm font-semibold mb-2 md:mb-0 text-start">
                     Release Date:{" "}
                     <span className="text-gray-400 ml-2">
-                      {media.release_date || media.first_air_date}
+                      {media.release_date.substring(0,10)}
                     </span>
                   </p>
                   <div className="flex items-center text-sm font-semibold">
