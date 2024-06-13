@@ -37,7 +37,7 @@ function Register() {
     }
     setLoading(true);
     try {
-      const response = await axios.post('http://localhost:8080/api/user/register', {
+      const response = await axios.post('https://fandom-mern.onrender.com/api/user/register', {
         name,
         email,
         password
