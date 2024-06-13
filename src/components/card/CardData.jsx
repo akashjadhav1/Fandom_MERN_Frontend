@@ -193,7 +193,7 @@ function CardData({ trendingData, filter, searchQuery }) {
           </Card>
         ))}
       </div>
-      <div className="mt-10">
+      <div className="mt-10 mb-8">
         <PaginationComponent
           currentPage={currentPage}
           totalPages={totalPages}

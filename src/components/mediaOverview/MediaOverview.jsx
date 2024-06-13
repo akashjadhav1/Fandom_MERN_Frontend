@@ -5,6 +5,8 @@ import { renderStars } from "@/assets/renderStar";
 import MediaOverviewSkeleton from "./MediaOverviewSkeleton";
 import useMedia from "@/hooks/useMedia";
 import genreData from "@/assets/genre";
+import { Link } from "react-router-dom";
+import Cookies from "js-cookie";
 
 
 
@@ -14,7 +16,7 @@ function MediaOverview() {
   const { id } = useParams();
   const { media, loading, error } = useMedia(id);
 
-  
+  const token = Cookies.get("authToken");
 
   if (loading) return <MediaOverviewSkeleton />;
   if (error) return <p>Error: {error.message}</p>;
@@ -24,7 +26,7 @@ function MediaOverview() {
       <div className={`flex flex-col md:flex-row w-full max-w-5xl m-auto p-5 shadow-gray-300 shadow-lg rounded`}>
         {media && (
           <>
-            <div className="w-full md:w-1/2 lg:w-1/3">
+            <div className={`w-full md:w-1/2 lg:w-1/3}`}>
               <img
                 src={`${IMAGE_BASE_URL}${media.poster_path || media.backdrop_path}`}
                 alt={media.title || media.name}
@@ -41,7 +43,7 @@ function MediaOverview() {
                 {media.overview}
               </p>
 
-              <div className="lg:flex lg:items-center lg:justify-center lg:mt-5">
+              <div className="lg:flex lg:items-center lg:mx-9 lg:mt-5">
                 {media.genre_ids.map((genre) => (
                   <Button
                     key={genre}
@@ -81,9 +83,12 @@ function MediaOverview() {
                 </div>
               </div>
               <div className="mt-5">
-                <Button variant="outline" className="w-full">
+              <Link to={token?media.video:"/login"}>
+              <Button variant="outline" className="w-full rounded hover:shadow-orange-500 shadow-md hover:border-none">
                   Watch Now
                 </Button>
+              </Link>
+               
               </div>
             </div>
           </>

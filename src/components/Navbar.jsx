@@ -95,7 +95,7 @@ export default function Navbar() {
                         className="w-[11rem] lg:w-[80px] md:w-[140px] rounded-full border-2 border-red-700 cursor-pointer"
                       />
                     ) : (
-                      <div className="flex justify-center items-center border-4 border-yellow-700 bg-white  w-11 h-11 rounded-full">
+                      <div className="flex justify-center items-center border-1 border-yellow-700 bg-white  w-11 h-11 rounded-full">
                         <img src={defaultProfile} className="" alt="profile" />
                       </div>
                     )}

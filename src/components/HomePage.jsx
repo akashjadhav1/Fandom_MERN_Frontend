@@ -5,6 +5,8 @@ import CardData from "./card/CardData";
 import useAllMediaData from "@/hooks/useAllMedia";
 import CardSkeleton from "./card/CardSkeleton";
 
+
+
 function HomePage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [filter, setFilter] = useState("all");
@@ -41,6 +43,7 @@ function HomePage() {
           Search
         </Button>
       </form>
+
 
       <div className="w-[70%] m-auto flex mt-8">
         <Button 

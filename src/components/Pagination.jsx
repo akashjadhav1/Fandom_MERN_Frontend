@@ -1,7 +1,7 @@
 import {
   Pagination,
   PaginationContent,
-  PaginationEllipsis,
+  
   PaginationItem,
   PaginationLink,
   PaginationNext,
@@ -24,7 +24,7 @@ function PaginationComponent({ currentPage, totalPages, onPageChange }) {
             href="#"
             isActive={i === currentPage}
             onClick={() => handlePageChange(i)}
-            className="rounded-full"
+            className="rounded-full text-orange-500"
           >
             {i}
           </PaginationLink>

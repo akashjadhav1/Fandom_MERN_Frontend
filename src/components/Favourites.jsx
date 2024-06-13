@@ -72,7 +72,7 @@ function Favorites() {
             <Card key={movie.id} className="cursor-pointer hover:shadow-xl transition-shadow  duration-300 border-none bg-black shadow-white shadow-md rounded">
               <CardHeader className="relative flex flex-col items-center justify-center lg:h-[200px] ">
                 <div className="object-contain h-full">
-                  <Link to={`/mediaOverview/${movie.media_type}/${movie.id}`}>
+                  <Link to={`/mediaOverview/${movie.id}`}>
                     <img 
                       src={`${IMAGE_BASE_URL}${movie.poster_path}`} 
                       alt={movie.title} 

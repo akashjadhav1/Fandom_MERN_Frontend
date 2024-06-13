@@ -14,7 +14,7 @@ function CarouselComponent() {
 
   return (
     <div>
-      <Carousel className="w-full max-w-xs">
+      <Carousel className="w-full h-[10%]">
       <CarouselContent>
         {Array.from({ length: 5 }).map((_, index) => (
           <CarouselItem key={index}>
