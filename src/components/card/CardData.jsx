@@ -110,15 +110,24 @@ function CardData({ trendingData, filter, searchQuery }) {
     [favorites, isToggling, navigate]
   );
 
+  // Sort and filter the data
+  const sortedData = trendingData.data
+    .slice() // Create a copy to avoid mutating the original data
+    .sort((a, b) => {
+      const dateA = new Date(a.release_date);
+      const dateB = new Date(b.release_date);
+      return dateB - dateA; // Sort in descending order
+    });
+
   const filteredData = searchQuery
-    ? trendingData.data.filter((item) =>
+    ? sortedData.filter((item) =>
         (item.title || item.name)
           .toLowerCase()
           .includes(searchQuery.toLowerCase())
       )
     : filter === "all"
-    ? trendingData.data
-    : trendingData.data.filter((item) => item.media_type === filter);
+    ? sortedData
+    : sortedData.filter((item) => item.media_type === filter);
 
   // Calculate the number of pages
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);

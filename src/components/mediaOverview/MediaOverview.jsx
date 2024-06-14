@@ -73,8 +73,8 @@ function MediaOverview() {
                 </div>
                 <div className="lg:mx-3 md:mx-3">
                   <p className=" text-sm font-semibold mb-2 md:mb-0 text-start">
-                    Status:{" "}
-                    <span className="text-gray-400">{media.status}</span>
+                    Media Type:{" "}
+                    <span className="text-gray-400">{media.media_type.toUpperCase()}</span>
                   </p>
                   <p className=" text-sm font-semibold mb-2 md:mb-0 text-start">
                     Popularity:{" "}
