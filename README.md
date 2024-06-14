@@ -9,7 +9,7 @@ Welcome to Fandom, the premier entertainment app for movie and TV show enthusias
 
 ## Authors
 
-- [Akash Jadhav](https://github.com/akashjadhav1/Fandom.git)
+- [Akash Jadhav](https://github.com/akashjadhav1/fandom_MERN_Frontend.git)
 
 
 ## Technologies Used
@@ -17,7 +17,13 @@ Welcome to Fandom, the premier entertainment app for movie and TV show enthusias
 
 * React+Vite
 
-* Firebase Authentication
+* MongoDB
+
+* Express JS
+
+* NodeJS
+
+* REST API
 
 * Shadcn
 
@@ -44,7 +50,7 @@ Install my-project with npm
 
 1. Clone the repository:
    ```sh
-   git clone (https://github.com/akashjadhav1/Fandom.git)
+   git clone ([https://github.com/akashjadhav1/fandom_MERN_Frontend.git])
    ```
 2. Navigate to the project directory:
    ```sh
@@ -72,13 +78,6 @@ To deploy this project run
 
 
 
-## Environment Variables
-
-To run this project, you will need to add the following environment variables to your .env file
-
-`VITE_TMDB_API_KEY`
-
-
 
 ## Features
 
@@ -95,7 +94,7 @@ Join Fandom today and transform the way you experience entertainment. Discover n
 
 ![Homepage](https://github.com/akashjadhav1/Fandom/assets/123940829/6c8a12da-a2de-444c-b94a-26d1f7dd875e)
 
-![homepage with user](https://github.com/akashjadhav1/Fandom/assets/123940829/5b64777f-6e61-4584-8f20-78fc2de75029)
+![Screenshot 2024-06-14 153220](https://github.com/akashjadhav1/fandom_MERN_Frontend/assets/123940829/53aa2be3-716b-43e3-ad1b-537cd8272eed)
 
 ![Overview](https://github.com/akashjadhav1/Fandom/assets/123940829/3d06abf7-f615-44c8-8563-8f8950a8a94c)
 
@@ -103,8 +102,8 @@ Join Fandom today and transform the way you experience entertainment. Discover n
 
 ![Screenshot 2024-05-31 214838](https://github.com/akashjadhav1/Fandom/assets/123940829/e77ae500-3b0b-416c-a22b-5713f3fbddd4)
 
+![Screenshot 2024-06-14 153232](https://github.com/akashjadhav1/fandom_MERN_Frontend/assets/123940829/4a8a68fb-9300-4b09-94fc-b958f7e2c3f6)
 
-![login](https://github.com/akashjadhav1/Fandom/assets/123940829/d1e92b0d-edde-4e44-90ce-1fc8675d70e7)
+![Screenshot 2024-06-14 153239](https://github.com/akashjadhav1/fandom_MERN_Frontend/assets/123940829/61f0ad64-1043-4850-962d-216aca557332)
 
-![Register](https://github.com/akashjadhav1/Fandom/assets/123940829/4e14c01a-ae32-44ec-b8d3-681319d6ac3e)
 
