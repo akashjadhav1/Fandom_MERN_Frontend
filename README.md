@@ -96,11 +96,11 @@ Join Fandom today and transform the way you experience entertainment. Discover n
 
 ![Screenshot 2024-06-14 153220](https://github.com/akashjadhav1/fandom_MERN_Frontend/assets/123940829/53aa2be3-716b-43e3-ad1b-537cd8272eed)
 
-![Overview](https://github.com/akashjadhav1/Fandom/assets/123940829/3d06abf7-f615-44c8-8563-8f8950a8a94c)
+![Screenshot 2024-06-14 153653](https://github.com/akashjadhav1/fandom_MERN_Frontend/assets/123940829/8597f805-46e6-4ac8-a16f-b00cf1c8b5b7)
 
 ![favourites](https://github.com/akashjadhav1/Fandom/assets/123940829/7098acd2-bde1-4584-8f3c-fe2f45eabc34)
 
-![Screenshot 2024-05-31 214838](https://github.com/akashjadhav1/Fandom/assets/123940829/e77ae500-3b0b-416c-a22b-5713f3fbddd4)
+![Screenshot 2024-06-14 153705](https://github.com/akashjadhav1/fandom_MERN_Frontend/assets/123940829/0f04199f-6e1d-46af-b279-c7bde6688b6e)
 
 ![Screenshot 2024-06-14 153232](https://github.com/akashjadhav1/fandom_MERN_Frontend/assets/123940829/4a8a68fb-9300-4b09-94fc-b958f7e2c3f6)
 
