@@ -64,7 +64,7 @@ export default function Navbar() {
     }
   };
 
-  console.log(user)
+ 
 
   return (
     <nav className="fixed inset-x-0 top-0 z-50 bg-gray-900 shadow-sm text-white dark:bg-gray-950/90">

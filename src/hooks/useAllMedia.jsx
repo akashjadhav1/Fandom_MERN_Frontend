@@ -14,7 +14,7 @@ function useAllMediaData() {
     async function fetchTrendingData() {
       try {
         setLoading(true);
-        const response = await axios.get(apiURL, { timeout: 35000 }); // Increased timeout to 20000ms
+        const response = await axios.get(apiURL, { timeout: 5000 }); 
         if (isMounted) {
           setData(response.data || []);
           setError(null);

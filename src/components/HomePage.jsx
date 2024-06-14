@@ -12,7 +12,7 @@ function HomePage() {
   const [filter, setFilter] = useState("all");
   const { data, loading, error } = useAllMediaData(searchQuery);
 
-  console.log(data);
+  
 
   const handleSearch = (e) => {
     e.preventDefault();
