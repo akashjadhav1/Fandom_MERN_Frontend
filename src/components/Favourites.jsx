@@ -66,7 +66,7 @@ function Favorites() {
         <h1 className='text-2xl font-bold mb-3 '>All Favorites</h1>
         <hr />
       </div>
-      <div className='grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 max-w-full mx-5 mt-8'>
+      <div className='grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-4 max-w-full mx-5 mt-8'>
         {media.length > 0 ? (
           media.map((movie) => (
             <Card key={movie.id} className="cursor-pointer hover:shadow-xl transition-shadow  duration-300 border-none bg-black shadow-white shadow-md rounded">
