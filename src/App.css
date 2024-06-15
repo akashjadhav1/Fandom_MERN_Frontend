@@ -1,0 +1,4 @@
+.backgroundImage{
+    background-image: url("../src/assets/fandomBackground.jpg");
+    background-size: contain;
+  }
